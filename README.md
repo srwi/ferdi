@@ -5,6 +5,7 @@
 # Ferdi
 
 <p align="center">
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section --><a href='#contributors-'><img src='https://img.shields.io/badge/contributors-27-default.svg?logo=github' alt='Contributors'/></a><!-- ALL-CONTRIBUTORS-BADGE:END --> 
 <a href="#backers-via-opencollective"><img alt="Open Collective backers" src="https://img.shields.io/opencollective/backers/getferdi?logo=open-collective"></a>
 <a href="#sponsors-via-opencollective"><img alt="Open Collective sponsors" src="https://img.shields.io/opencollective/sponsors/getferdi?logo=open-collective"></a>
 <a href="https://ci.appveyor.com/project/kytwb/ferdi"><img alt="Build Status Windows" src="https://img.shields.io/appveyor/ci/kytwb/ferdi/master?logo=appveyor"></a>
@@ -17,29 +18,31 @@
 
 <details>
 <summary>Toggle navigation</summary>
-<ul>
-<li><a href="#what-is-ferdi">What is Ferdi?</a></li>
-<li><a href="#what-does-ferdi-look-like">What does Ferdi look like?</a></li>
-<li><a href="#download-ferdi">Download Ferdi</a>
-<ul>
-<li><a href="#or-use-homebrew-macos-only">Or use homebrew</a></li>
-</ul>
-</li>
-<li><a href="#ferdi-specific-features">Ferdi-specific features</a></li>
-<li><a href="#development">Development</a></li>
-<ul>
-<li><a href="#install-os-dependencies">Install OS dependencies</a></li>
-<li><a href="#clone-repository-with-submodule">Clone repository with submodule</a></li>
-<li><a href="#install-dependencies">Install dependencies</a></li>
-<li><a href="#fix-native-modules-to-match-current-electron-node-version">Fix native modules to match current electron node version</a></li>
-<li><a href="#start-development-app">Start development app</a></li>
-<li><a href="#packaging">Packaging</a></li>
-<li><a href="#release">Release</a></li>
-</ul>
-<li><a href="#contributors-">Contributors ✨</a></li>
-<li><a href="#backers-via-opencollective">Backers via OpenCollective</a></li>
-<li><a href="#sponsors-via-opencollective">Sponsors via OpenCollective</a></li>
-</ul>
+
+- [Ferdi](#ferdi)
+    - [Table of contents](#table-of-contents)
+    - [What is Ferdi?](#what-is-ferdi)
+    - [What does Ferdi look like?](#what-does-ferdi-look-like)
+  - [Download Ferdi](#download-ferdi)
+    - [Or use homebrew (macOS only)](#or-use-homebrew-macos-only)
+    - [Or use AUR (Arch Linux)](#or-use-aur-arch-linux)
+  - [Ferdi-specific Features](#ferdi-specific-features)
+  - [Development](#development)
+    - [Install OS dependencies](#install-os-dependencies)
+      - [Node.js](#nodejs)
+      - [Git](#git)
+      - [Debian/Ubuntu](#debianubuntu)
+      - [Fedora](#fedora)
+      - [Windows](#windows)
+    - [Clone repository with submodule](#clone-repository-with-submodule)
+    - [Install dependencies](#install-dependencies)
+    - [Fix native modules to match current electron node version](#fix-native-modules-to-match-current-electron-node-version)
+    - [Start development app](#start-development-app)
+    - [Packaging](#packaging)
+    - [Release](#release)
+  - [Contributors ✨](#contributors-)
+  - [Backers via OpenCollective](#backers-via-opencollective)
+  - [Sponsors via OpenCollective](#sponsors-via-opencollective)
 </details>
 
 ### What is Ferdi?
@@ -55,8 +58,8 @@ Ferdi is a messaging browser that allows you to combine your favorite messaging 
 <em>"Keep all your messaging services in one place."</em>
 <img alt="Order your services with Ferdi Workspaces." src="./branding/screenshots/workspaces.png">
 <em>"Order your services with Ferdi Workspaces."</em>
-<img alt="Always keep your Todo list open with Ferdi Todos." src="./branding/screenshots/todos.png">
-<em>"Always keep your Todo list open with Ferdi Todos."</em>
+<img alt="Always keep your Todos list open with Ferdi Todos." src="./branding/screenshots/todos.png">
+<em>"Always keep your Todos list open with Ferdi Todos."</em>
 <img alt="Supporting all your services." src="./branding/screenshots/service-store.png">
 <em>"Supporting all your services."</em>
 </p>
@@ -74,13 +77,12 @@ You can find the installers in the [latest stable release](https://github.com/ge
 
 ### Or use AUR (Arch Linux)
 
-Ferdi has two seperate AUR packages you can use:
-- **ferdi-bin**: Uses your debian build and extracts it to Arch
-- **ferdi-git**: Uses system electron version
+Ferdi has three seperate AUR packages you can use:
+- **[ferdi](https://aur.archlinux.org/packages/ferdi/)**: Uses your system electron version to run the latest release
+- **[ferdi-bin](https://aur.archlinux.org/packages/ferdi-bin/)**: Uses the latest Fedora release and extracts it to Arch
+- **[ferdi-git](https://aur.archlinux.org/packages/ferdi-git/)**: Uses your system electron version to run the latest commit from the develop branch
 
-If you use an AUR Helper e.g. yay, simply install it via `yay -S ferdi-bin`.
-
-`ferdi-git` may not work on all systems so we advice you to use `ferdi-bin` instead.
+If you use an AUR Helper e.g. yay, simply install it via `yay -S ferdi`.
 
 ## Ferdi-specific Features
 
@@ -90,6 +92,8 @@ If you use an AUR Helper e.g. yay, simply install it via `yay -S ferdi-bin`.
 - [x] Remove bug that would incorrectly display unread messages count on some services (more info in [7566ccd](https://github.com/getferdi/ferdi/commit/7566ccd))
 - [x] Makes all users Premium by default ([#15](https://github.com/getferdi/ferdi/issues/15))
 - [x] Using the Ferdi API instead of Franz's servers
+- [x] Upgrading to Electron 7
+- [x] Add several new services
 - [x] [Add option to change server to a custom](https://github.com/getferdi/ferdi/wiki/Custom-Server) [ferdi-server](https://github.com/getferdi/server)
 - [x] Add option to use Ferdi without an account ([#5](https://github.com/getferdi/ferdi/issues/5))
 - [x] Add "Private Notification"-Mode, that hides message content from notifications ([franz#879](https://github.com/meetfranz/franz/issues/879))
@@ -104,16 +108,20 @@ If you use an AUR Helper e.g. yay, simply install it via `yay -S ferdi-bin`.
 - [x] Add CTRL+← and CTRL+→ shortcuts and menu options to go back and forward in the service browsing history([#39](https://github.com/getferdi/ferdi/issues/39))
 - [x] Add option to show a browser-like navigation bar on all services
 - [x] Add option to change accent color
+- [x] Add local [recipe repository](https://github.com/getferdi/recipes) that removes the need of downloading recipes from a remote server
 - [x] Add portable version for Windows
 - [x] Add Process Manager to find services using a lot of resources
 - [x] Add "npm run prepare-code" command for development to lint and beautify code
 - [x] Add button to open darkmode.css for a service
+- [x] [Add `user.css` and `user.js` that allows users to inject custom code into services](https://github.com/getferdi/ferdi/wiki/Using-user.css-and-user.js) ([#83](https://github.com/getferdi/ferdi/issues/83))
+- [x] Allow SVGs for service custom icon
 - [x] Switch to [`electron-spellchecker`](https://github.com/electron-userland/electron-spellchecker) to improve application size
 - [x] Improve "About Ferdi" screen to better display versions
 - [x] Minifying build files to improve app size
-- [x] [Makes it possible to edit the "Franz Todo" server](https://github.com/getferdi/ferdi/wiki/Custom-Todo)
+- [x] [Makes it possible to edit the "Franz Todos" service](https://github.com/getferdi/ferdi/wiki/Custom-Todo) (e.g. Todoist via https://todoist.com/app)
 - [x] Makes RocketChat self-hosted generally available ([#6](https://github.com/getferdi/ferdi/issues/6))
 - [x] Comes with a custom branding proper to Ferdi
+- [x] UI improvements
 
 ## Development
 
@@ -173,11 +181,17 @@ $ npm run rebuild
 
 ### Start development app
 
-Run these two commands **simultaneously** in different console tabs:
+Run these two commands **simultaneously** in different terminals:
 
 ```bash
 $ npm run dev
 $ npm run start
+```
+
+Optionally, you can run both commands in one terminal with [misty](https://github.com/adlk/misty) (see [misty.yml](https://github.com/getferdi/ferdi/blob/develop/misty.yml)):
+
+```bash
+$ npx misty
 ```
 
 Be aware that the development database will be reset regularly.
@@ -193,7 +207,11 @@ Deliverables will be available in the `out` folder.
 ### Release
 
 ```bash
-$ git checkout develop && git pull && git checkout master
+$ git checkout develop && git pull
+$ git submodule update --remote --force
+$ git add .
+$ git commit -m "Update submodules"
+$ git checkout master
 $ git merge --no-ff develop
 $ git tag v5.3.4-beta.4
 $ git push --tags
@@ -210,37 +228,6 @@ Thanks goes to these awesome people:
 <!-- markdownlint-disable -->
 <table>
   <tr>
-<<<<<<< Updated upstream
-    <td align="center"><a href="https://vantezzen.io"><img src="https://avatars2.githubusercontent.com/u/10333196?v=4" width="40px;" alt=""/><br /><sub><b>Bennett</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/commits?author=vantezzen" title="Code">💻</a> <a href="#design-vantezzen" title="Design">🎨</a> <a href="https://github.com/getferdi/ferdi/commits?author=vantezzen" title="Documentation">📖</a> <a href="#ideas-vantezzen" title="Ideas, Planning, & Feedback">🤔</a> <a href="#translation-vantezzen" title="Translation">🌍</a> <a href="#example-vantezzen" title="Examples">💡</a> <a href="https://github.com/getferdi/ferdi/issues?q=author%3Avantezzen" title="Bug reports">🐛</a> <a href="#content-vantezzen" title="Content">🖋</a> <a href="#infra-vantezzen" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#userTesting-vantezzen" title="User Testing">📓</a> <a href="#question-vantezzen" title="Answering Questions">💬</a> <a href="#projectManagement-vantezzen" title="Project Management">📆</a> <a href="https://github.com/getferdi/ferdi/pulls?q=is%3Apr+reviewed-by%3Avantezzen" title="Reviewed Pull Requests">👀</a></td>
-    <td align="center"><a href="http://www.adlk.io"><img src="https://avatars1.githubusercontent.com/u/3265004?v=4" width="40px;" alt=""/><br /><sub><b>Stefan Malzner</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/commits?author=adlk" title="Code">💻</a> <a href="#content-adlk" title="Content">🖋</a> <a href="#design-adlk" title="Design">🎨</a> <a href="https://github.com/getferdi/ferdi/commits?author=adlk" title="Documentation">📖</a> <a href="#ideas-adlk" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-adlk" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#projectManagement-adlk" title="Project Management">📆</a> <a href="https://github.com/getferdi/ferdi/commits?author=adlk" title="Tests">⚠️</a> <a href="#translation-adlk" title="Translation">🌍</a></td>
-    <td align="center"><a href="https://twitter.com/kytwb"><img src="https://avatars0.githubusercontent.com/u/412895?v=4" width="40px;" alt=""/><br /><sub><b>Amine Mouafik</b></sub></a><br /><a href="#question-kytwb" title="Answering Questions">💬</a> <a href="https://github.com/getferdi/ferdi/commits?author=kytwb" title="Code">💻</a> <a href="https://github.com/getferdi/ferdi/commits?author=kytwb" title="Documentation">📖</a> <a href="#ideas-kytwb" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-kytwb" title="Maintenance">🚧</a> <a href="#platform-kytwb" title="Packaging/porting to new platform">📦</a> <a href="#projectManagement-kytwb" title="Project Management">📆</a> <a href="https://github.com/getferdi/ferdi/pulls?q=is%3Apr+reviewed-by%3Akytwb" title="Reviewed Pull Requests">👀</a> <a href="#infra-kytwb" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#fundingFinding-kytwb" title="Funding Finding">🔍</a> <a href="#blog-kytwb" title="Blogposts">📝</a></td>
-    <td align="center"><a href="http://seriesgt.com"><img src="https://avatars3.githubusercontent.com/u/5977640?v=4" width="40px;" alt=""/><br /><sub><b>ZeroCool</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/commits?author=ZeroCool940711" title="Code">💻</a> <a href="#ideas-ZeroCool940711" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://github.com/rseitbekov"><img src="https://avatars2.githubusercontent.com/u/35684439?v=4" width="40px;" alt=""/><br /><sub><b>rseitbekov</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/commits?author=rseitbekov" title="Code">💻</a></td>
-    <td align="center"><a href="https://djangogigs.com/developers/peter-bittner/"><img src="https://avatars2.githubusercontent.com/u/665072?v=4" width="40px;" alt=""/><br /><sub><b>Peter Bittner</b></sub></a><br /><a href="#ideas-bittner" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/getferdi/ferdi/issues?q=author%3Abittner" title="Bug reports">🐛</a></td>
-  </tr>
-  <tr>
-    <td align="center"><a href="https://github.com/justus-saul"><img src="https://avatars1.githubusercontent.com/u/5861826?v=4" width="40px;" alt=""/><br /><sub><b>Justus Saul</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/issues?q=author%3Ajustus-saul" title="Bug reports">🐛</a> <a href="#ideas-justus-saul" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://github.com/igreil"><img src="https://avatars0.githubusercontent.com/u/17239151?v=4" width="40px;" alt=""/><br /><sub><b>igreil</b></sub></a><br /><a href="#ideas-igreil" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="http://marcolopes.eu"><img src="https://avatars1.githubusercontent.com/u/431889?v=4" width="40px;" alt=""/><br /><sub><b>Marco Lopes</b></sub></a><br /><a href="#ideas-marcolopes" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://github.com/dayzlun"><img src="https://avatars3.githubusercontent.com/u/17259690?v=4" width="40px;" alt=""/><br /><sub><b>dayzlun</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/issues?q=author%3Adayzlun" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://twitter.com/tobigue_"><img src="https://avatars2.githubusercontent.com/u/1560152?v=4" width="40px;" alt=""/><br /><sub><b>Tobias Günther</b></sub></a><br /><a href="#ideas-tobigue" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://github.com/AGCaesar"><img src="https://avatars3.githubusercontent.com/u/7844066?v=4" width="40px;" alt=""/><br /><sub><b>AGCaesar</b></sub></a><br /><a href="#platform-AGCaesar" title="Packaging/porting to new platform">📦</a></td>
-  </tr>
-  <tr>
-    <td align="center"><a href="https://github.com/Makazzz"><img src="https://avatars2.githubusercontent.com/u/49844464?v=4" width="40px;" alt=""/><br /><sub><b>Makazzz</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/issues?q=author%3AMakazzz" title="Bug reports">🐛</a> <a href="https://github.com/getferdi/ferdi/commits?author=Makazzz" title="Code">💻</a> <a href="#translation-Makazzz" title="Translation">🌍</a> <a href="#content-Makazzz" title="Content">🖋</a> <a href="https://github.com/getferdi/ferdi/commits?author=Makazzz" title="Documentation">📖</a> <a href="#platform-Makazzz" title="Packaging/porting to new platform">📦</a></td>
-    <td align="center"><a href="https://github.com/xthursdayx"><img src="https://avatars0.githubusercontent.com/u/18044308?v=4" width="40px;" alt=""/><br /><sub><b>xthursdayx</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/commits?author=xthursdayx" title="Code">💻</a> <a href="https://github.com/getferdi/ferdi/commits?author=xthursdayx" title="Documentation">📖</a> <a href="#infra-xthursdayx" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#platform-xthursdayx" title="Packaging/porting to new platform">📦</a></td>
-    <td align="center"><a href="https://github.com/Gaboris"><img src="https://avatars2.githubusercontent.com/u/9462372?v=4" width="40px;" alt=""/><br /><sub><b>Gaboris</b></sub></a><br /><a href="#question-Gaboris" title="Answering Questions">💬</a> <a href="https://github.com/getferdi/ferdi/issues?q=author%3AGaboris" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="http://www.cu3ed.com/"><img src="https://avatars1.githubusercontent.com/u/61343?v=4" width="40px;" alt=""/><br /><sub><b>Ce</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/issues?q=author%3Aincace" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="http://pztrn.name/"><img src="https://avatars1.githubusercontent.com/u/869402?v=4" width="40px;" alt=""/><br /><sub><b>Stanislav N.</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/issues?q=author%3Apztrn" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="http://www.patrickcurl.com"><img src="https://avatars1.githubusercontent.com/u/1470061?v=4" width="40px;" alt=""/><br /><sub><b>Patrick Curl</b></sub></a><br /><a href="#ideas-patrickcurl" title="Ideas, Planning, & Feedback">🤔</a></td>
-  </tr>
-  <tr>
-    <td align="center"><a href="https://github.com/Stanzilla"><img src="https://avatars3.githubusercontent.com/u/75278?v=4" width="40px;" alt=""/><br /><sub><b>Benjamin Staneck</b></sub></a><br /><a href="#design-Stanzilla" title="Design">🎨</a></td>
-    <td align="center"><a href="https://github.com/ammarmalhas"><img src="https://avatars1.githubusercontent.com/u/57057209?v=4" width="40px;" alt=""/><br /><sub><b>ammarmalhas</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/issues?q=author%3Aammarmalhas" title="Bug reports">🐛</a> <a href="#security-ammarmalhas" title="Security">🛡️</a></td>
-    <td align="center"><a href="https://github.com/steliyan"><img src="https://avatars1.githubusercontent.com/u/1850292?v=4" width="40px;" alt=""/><br /><sub><b>Steliyan Stoyanov</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/commits?author=steliyan" title="Code">💻</a> <a href="#ideas-steliyan" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://github.com/brorbw"><img src="https://avatars2.githubusercontent.com/u/5909562?v=4" width="40px;" alt=""/><br /><sub><b>Bror Winther</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/commits?author=brorbw" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://fwdekker.com/"><img src="https://avatars0.githubusercontent.com/u/13442533?v=4" width="40px;" alt=""/><br /><sub><b>Felix W. Dekker</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/commits?author=FWDekker" title="Documentation">📖</a></td>
-=======
     <td align="center"><a href='https://vantezzen.io' title='vantezzen is awesome!'><img src='https://avatars2.githubusercontent.com/u/10333196?v=4' alt='vantezzen' style='border-radius: 42px;width:42px;height:42px'/></a></td>
     <td align="center"><a href='http://www.adlk.io' title='adlk is awesome!'><img src='https://avatars1.githubusercontent.com/u/3265004?v=4' alt='adlk' style='border-radius: 42px;width:42px;height:42px'/></a></td>
     <td align="center"><a href='https://twitter.com/kytwb' title='kytwb is awesome!'><img src='https://avatars0.githubusercontent.com/u/412895?v=4' alt='kytwb' style='border-radius: 42px;width:42px;height:42px'/></a></td>
@@ -266,20 +253,15 @@ Thanks goes to these awesome people:
     <td align="center"><a href='https://github.com/steliyan' title='steliyan is awesome!'><img src='https://avatars1.githubusercontent.com/u/1850292?v=4' alt='steliyan' style='border-radius: 42px;width:42px;height:42px'/></a></td>
     <td align="center"><a href='https://github.com/brorbw' title='brorbw is awesome!'><img src='https://avatars2.githubusercontent.com/u/5909562?v=4' alt='brorbw' style='border-radius: 42px;width:42px;height:42px'/></a></td>
     <td align="center"><a href='https://fwdekker.com/' title='FWDekker is awesome!'><img src='https://avatars0.githubusercontent.com/u/13442533?v=4' alt='FWDekker' style='border-radius: 42px;width:42px;height:42px'/></a></td>
->>>>>>> Stashed changes
+    <td align="center"><a href='https://github.com/Sauceee' title='Sauceee is awesome!'><img src='https://avatars2.githubusercontent.com/u/17987941?v=4' alt='Sauceee' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='http://lhw.ring0.de' title='lhw is awesome!'><img src='https://avatars2.githubusercontent.com/u/351875?v=4' alt='lhw' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='https://github.com/jereksel' title='jereksel is awesome!'><img src='https://avatars0.githubusercontent.com/u/1307829?v=4' alt='jereksel' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='https://gitlab.com/dpeukert' title='dpeukert is awesome!'><img src='https://avatars2.githubusercontent.com/u/3451904?v=4' alt='dpeukert' style='border-radius: 42px;width:42px;height:42px'/></a></td>
   </tr>
 </table>
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<!-- markdownlint-enable -->
-<!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

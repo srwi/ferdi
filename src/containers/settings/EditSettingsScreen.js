@@ -10,7 +10,9 @@ import UserStore from '../../stores/UserStore';
 import TodosStore from '../../features/todos/store';
 import Form from '../../lib/Form';
 import { APP_LOCALES, SPELLCHECKER_LOCALES } from '../../i18n/languages';
-import { DEFAULT_APP_SETTINGS, HIBERNATION_STRATEGIES } from '../../config';
+import {
+  DEFAULT_APP_SETTINGS, HIBERNATION_STRATEGIES, SIDEBAR_WIDTH, ICON_SIZES, NAVIGATION_BAR_BEHAVIOURS,
+} from '../../config';
 import { config as spellcheckerConfig } from '../../features/spellchecker';
 
 import { getSelectOptions } from '../../helpers/i18n-helpers';
@@ -38,9 +40,13 @@ const messages = defineMessages({
     id: 'settings.app.form.runInBackground',
     defaultMessage: '!!!Keep Ferdi in background when closing the window',
   },
+  startMinimized: {
+    id: 'settings.app.form.startMinimized',
+    defaultMessage: '!!!Start minimized in tray',
+  },
   enableSystemTray: {
     id: 'settings.app.form.enableSystemTray',
-    defaultMessage: '!!!Show Ferdi in system tray',
+    defaultMessage: '!!!Always show Ferdi in system tray',
   },
   minimizeToSystemTray: {
     id: 'settings.app.form.minimizeToSystemTray',
@@ -50,9 +56,13 @@ const messages = defineMessages({
     id: 'settings.app.form.privateNotifications',
     defaultMessage: '!!!Don\'t show message content in notifications',
   },
-  showServiceNavigationBar: {
-    id: 'settings.app.form.showServiceNavigationBar',
-    defaultMessage: '!!!Always show service navigation bar',
+  navigationBarBehaviour: {
+    id: 'settings.app.form.navigationBarBehaviour',
+    defaultMessage: '!!!Navigation bar behaviour',
+  },
+  sentry: {
+    id: 'settings.app.form.sentry',
+    defaultMessage: '!!!Send telemetry data',
   },
   hibernate: {
     id: 'settings.app.form.hibernate',
@@ -78,6 +88,10 @@ const messages = defineMessages({
     id: 'settings.app.form.lockPassword',
     defaultMessage: '!!!Password',
   },
+  inactivityLock: {
+    id: 'settings.app.form.inactivityLock',
+    defaultMessage: '!!!Lock after inactivity',
+  },
   scheduledDNDEnabled: {
     id: 'settings.app.form.scheduledDNDEnabled',
     defaultMessage: '!!!Enable scheduled Do-not-Disturb',
@@ -100,11 +114,19 @@ const messages = defineMessages({
   },
   adaptableDarkMode: {
     id: 'settings.app.form.adaptableDarkMode',
-    defaultMessage: '!!!Enable adaptable Dark Mode',
+    defaultMessage: '!!!Synchronize dark mode with my Mac\'s dark mode setting',
   },
   universalDarkMode: {
     id: 'settings.app.form.universalDarkMode',
     defaultMessage: '!!!Enable universal Dark Mode',
+  },
+  serviceRibbonWidth: {
+    id: 'settings.app.form.serviceRibbonWidth',
+    defaultMessage: '!!!Sidebar width',
+  },
+  iconSize: {
+    id: 'settings.app.form.iconSize',
+    defaultMessage: '!!!Service icon size',
   },
   accentColor: {
     id: 'settings.app.form.accentColor',
@@ -169,15 +191,18 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
       data: {
         runInBackground: settingsData.runInBackground,
         enableSystemTray: settingsData.enableSystemTray,
+        startMinimized: settingsData.startMinimized,
         minimizeToSystemTray: settingsData.minimizeToSystemTray,
         privateNotifications: settingsData.privateNotifications,
-        showServiceNavigationBar: settingsData.showServiceNavigationBar,
+        navigationBarBehaviour: settingsData.navigationBarBehaviour,
+        sentry: settingsData.sentry,
         hibernate: settingsData.hibernate,
         hibernationStrategy: settingsData.hibernationStrategy,
         server: settingsData.server,
         todoServer: settingsData.todoServer,
         lockingFeatureEnabled: settingsData.lockingFeatureEnabled,
         lockedPassword: settingsData.lockedPassword,
+        inactivityLock: settingsData.inactivityLock,
         scheduledDNDEnabled: settingsData.scheduledDNDEnabled,
         scheduledDNDStart: settingsData.scheduledDNDStart,
         scheduledDNDEnd: settingsData.scheduledDNDEnd,
@@ -186,6 +211,8 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
         darkMode: settingsData.darkMode,
         adaptableDarkMode: settingsData.adaptableDarkMode,
         universalDarkMode: settingsData.universalDarkMode,
+        serviceRibbonWidth: settingsData.serviceRibbonWidth,
+        iconSize: settingsData.iconSize,
         accentColor: settingsData.accentColor,
         showMessageBadgeWhenMuted: settingsData.showMessageBadgeWhenMuted,
         enableSpellchecking: settingsData.enableSpellchecking,
@@ -233,8 +260,23 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
       locales: APP_LOCALES,
     });
 
+    const navigationBarBehaviours = getSelectOptions({
+      locales: NAVIGATION_BAR_BEHAVIOURS,
+      sort: false,
+    });
+
     const hibernationStrategies = getSelectOptions({
       locales: HIBERNATION_STRATEGIES,
+      sort: false,
+    });
+
+    const sidebarWidth = getSelectOptions({
+      locales: SIDEBAR_WIDTH,
+      sort: false,
+    });
+
+    const iconSizes = getSelectOptions({
+      locales: ICON_SIZES,
       sort: false,
     });
 
@@ -260,6 +302,11 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
           value: settings.all.app.runInBackground,
           default: DEFAULT_APP_SETTINGS.runInBackground,
         },
+        startMinimized: {
+          label: intl.formatMessage(messages.startMinimized),
+          value: settings.all.app.startMinimized,
+          default: DEFAULT_APP_SETTINGS.startMinimized,
+        },
         enableSystemTray: {
           label: intl.formatMessage(messages.enableSystemTray),
           value: settings.all.app.enableSystemTray,
@@ -275,10 +322,16 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
           value: settings.all.app.privateNotifications,
           default: DEFAULT_APP_SETTINGS.privateNotifications,
         },
-        showServiceNavigationBar: {
-          label: intl.formatMessage(messages.showServiceNavigationBar),
-          value: settings.all.app.showServiceNavigationBar,
-          default: DEFAULT_APP_SETTINGS.showServiceNavigationBar,
+        navigationBarBehaviour: {
+          label: intl.formatMessage(messages.navigationBarBehaviour),
+          value: settings.all.app.navigationBarBehaviour,
+          default: DEFAULT_APP_SETTINGS.navigationBarBehaviour,
+          options: navigationBarBehaviours,
+        },
+        sentry: {
+          label: intl.formatMessage(messages.sentry),
+          value: settings.all.app.sentry,
+          default: DEFAULT_APP_SETTINGS.sentry,
         },
         hibernate: {
           label: intl.formatMessage(messages.hibernate),
@@ -311,6 +364,12 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
           value: settings.all.app.lockedPassword,
           default: '',
           type: 'password',
+        },
+        inactivityLock: {
+          label: intl.formatMessage(messages.inactivityLock),
+          value: settings.all.app.inactivityLock,
+          default: 0,
+          type: 'number',
         },
         scheduledDNDEnabled: {
           label: intl.formatMessage(messages.scheduledDNDEnabled),
@@ -364,6 +423,18 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
           label: intl.formatMessage(messages.universalDarkMode),
           value: settings.all.app.universalDarkMode,
           default: DEFAULT_APP_SETTINGS.universalDarkMode,
+        },
+        serviceRibbonWidth: {
+          label: intl.formatMessage(messages.serviceRibbonWidth),
+          value: settings.all.app.serviceRibbonWidth,
+          default: DEFAULT_APP_SETTINGS.serviceRibbonWidth,
+          options: sidebarWidth,
+        },
+        iconSize: {
+          label: intl.formatMessage(messages.iconSize),
+          value: settings.all.app.iconSize,
+          default: DEFAULT_APP_SETTINGS.iconSize,
+          options: iconSizes,
         },
         accentColor: {
           label: intl.formatMessage(messages.accentColor),
@@ -455,6 +526,8 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
           noUpdates={this.props.stores.settings.app.noUpdates}
           hibernationEnabled={this.props.stores.settings.app.hibernate}
           isDarkmodeEnabled={this.props.stores.settings.app.darkMode}
+          isTrayEnabled={this.props.stores.settings.app.enableSystemTray}
+          isAdaptableDarkModeEnabled={this.props.stores.settings.app.adaptableDarkMode}
           openProcessManager={() => this.openProcessManager()}
         />
       </ErrorBoundary>

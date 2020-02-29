@@ -264,6 +264,42 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "Sauceee",
+      "name": "Sauceee",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/17987941?v=4",
+      "profile": "https://github.com/Sauceee",
+      "contributions": [
+        "design"
+      ]
+    },
+    {
+      "login": "lhw",
+      "name": "Lennart Weller",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/351875?v=4",
+      "profile": "http://lhw.ring0.de",
+      "contributions": [
+        "platform"
+      ]
+    },
+    {
+      "login": "jereksel",
+      "name": "Andrzej Ressel",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1307829?v=4",
+      "profile": "https://github.com/jereksel",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "dpeukert",
+      "name": "Daniel Peukert",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/3451904?v=4",
+      "profile": "https://gitlab.com/dpeukert",
+      "contributions": [
+        "code"
+      ]
     }
   ]
 }

@@ -32,9 +32,17 @@ const messages = defineMessages({
     id: 'settings.app.headlineGeneral',
     defaultMessage: '!!!General',
   },
+  sentryInfo: {
+    id: 'settings.app.sentryInfo',
+    defaultMessage: '!!!Sending telemetry data allows us to find errors in Ferdi - we will not send any personal information like your message data! Changing this option requires you to restart Ferdi.',
+  },
   hibernateInfo: {
     id: 'settings.app.hibernateInfo',
     defaultMessage: '!!!By default, Ferdi will keep all your services open and loaded in the background so they are ready when you want to use them. Service Hibernation will unload your services after a specified amount. This is useful to save RAM or keeping services from slowing down your computer.',
+  },
+  inactivityLockInfo: {
+    id: 'settings.app.inactivityLockInfo',
+    defaultMessage: '!!!Minutes of inactivity, after which Ferdi should automatically lock. Use 0 to disable',
   },
   serverInfo: {
     id: 'settings.app.serverInfo',
@@ -142,6 +150,10 @@ const messages = defineMessages({
   },
 });
 
+const Hr = () => (
+  <hr style={{ marginBottom: 20 }} />
+);
+
 export default @observer class EditSettingsForm extends Component {
   static propTypes = {
     checkForUpdates: PropTypes.func.isRequired,
@@ -162,6 +174,8 @@ export default @observer class EditSettingsForm extends Component {
     noUpdates: PropTypes.bool.isRequired,
     hibernationEnabled: PropTypes.bool.isRequired,
     isDarkmodeEnabled: PropTypes.bool.isRequired,
+    isTrayEnabled: PropTypes.bool.isRequired,
+    isAdaptableDarkModeEnabled: PropTypes.bool.isRequired,
     openProcessManager: PropTypes.func.isRequired,
   };
 
@@ -186,6 +200,7 @@ export default @observer class EditSettingsForm extends Component {
       installUpdate,
       form,
       isCheckingForUpdates,
+      isAdaptableDarkModeEnabled,
       isUpdateAvailable,
       noUpdateAvailable,
       updateIsReadyToInstall,
@@ -199,6 +214,7 @@ export default @observer class EditSettingsForm extends Component {
       noUpdates,
       hibernationEnabled,
       isDarkmodeEnabled,
+      isTrayEnabled,
       openProcessManager,
     } = this.props;
     const { intl } = this.context;
@@ -235,8 +251,20 @@ export default @observer class EditSettingsForm extends Component {
             <Toggle field={form.$('autoLaunchOnStart')} />
             <Toggle field={form.$('runInBackground')} />
             <Toggle field={form.$('enableSystemTray')} />
+            {isTrayEnabled && <Toggle field={form.$('startMinimized')} />}
+            {process.platform === 'win32' && (
+              <Toggle field={form.$('minimizeToSystemTray')} />
+            )}
             <Toggle field={form.$('privateNotifications')} />
-            <Toggle field={form.$('showServiceNavigationBar')} />
+            <Select field={form.$('navigationBarBehaviour')} />
+
+            <Hr />
+
+            <Toggle field={form.$('sentry')} />
+            <p>{intl.formatMessage(messages.sentryInfo)}</p>
+
+            <Hr />
+
             <Toggle field={form.$('hibernate')} />
             {hibernationEnabled && (
               <Select field={form.$('hibernationStrategy')} />
@@ -251,9 +279,9 @@ export default @observer class EditSettingsForm extends Component {
                 { intl.formatMessage(messages.hibernateInfo) }
               </span>
             </p>
-            {process.platform === 'win32' && (
-              <Toggle field={form.$('minimizeToSystemTray')} />
-            )}
+
+            <Hr />
+
             <Input
               placeholder="Server"
               onChange={e => this.submit(e)}
@@ -293,9 +321,16 @@ export default @observer class EditSettingsForm extends Component {
                 />
               </p>
             )}
+
+            <Hr />
+
             {isWorkspaceEnabled && (
               <Toggle field={form.$('keepAllWorkspacesLoaded')} />
             )}
+
+
+            <Hr />
+
             {isTodosEnabled && (
               <>
                 <Toggle field={form.$('enableTodos')} />
@@ -315,6 +350,8 @@ export default @observer class EditSettingsForm extends Component {
               </>
             )}
 
+            <Hr />
+
             <Toggle field={form.$('lockingFeatureEnabled')} />
             {lockingFeatureEnabled && (
               <>
@@ -329,6 +366,16 @@ export default @observer class EditSettingsForm extends Component {
                 <p>
                   { intl.formatMessage(messages.lockedPasswordInfo) }
                 </p>
+
+                <Input
+                  placeholder="Lock after inactivity"
+                  onChange={e => this.submit(e)}
+                  field={form.$('inactivityLock')}
+                  autoFocus
+                />
+                <p>
+                  { intl.formatMessage(messages.inactivityLockInfo) }
+                </p>
               </>
             )}
             <p
@@ -342,6 +389,7 @@ export default @observer class EditSettingsForm extends Component {
               </span>
             </p>
 
+            <Hr />
 
             <Toggle field={form.$('scheduledDNDEnabled')} />
             {scheduledDNDEnabled && (
@@ -397,10 +445,13 @@ export default @observer class EditSettingsForm extends Component {
             <h2 id="apperance">{intl.formatMessage(messages.headlineAppearance)}</h2>
             <Toggle field={form.$('showDisabledServices')} />
             <Toggle field={form.$('showMessageBadgeWhenMuted')} />
-            <Toggle field={form.$('darkMode')} />
-            {isDarkmodeEnabled && (
+
+            <Hr />
+
+            {isMac && <Toggle field={form.$('adaptableDarkMode')} />}
+            {!(isMac && isAdaptableDarkModeEnabled) && <Toggle field={form.$('darkMode')} />}
+            {(isDarkmodeEnabled || isAdaptableDarkModeEnabled) && (
               <>
-                {isMac && <Toggle field={form.$('adaptableDarkMode')} />}
                 <Toggle field={form.$('universalDarkMode')} />
                 <p
                   className="settings__message"
@@ -415,6 +466,14 @@ export default @observer class EditSettingsForm extends Component {
               </>
             )}
 
+            <Hr />
+
+            <Select field={form.$('serviceRibbonWidth')} />
+
+            <Select field={form.$('iconSize')} />
+
+            <Hr />
+
             <Input
               placeholder="Accent Color"
               onChange={e => this.submit(e)}
@@ -425,6 +484,9 @@ export default @observer class EditSettingsForm extends Component {
             {/* Language */}
             <h2 id="language">{intl.formatMessage(messages.headlineLanguage)}</h2>
             <Select field={form.$('locale')} showLabel={false} />
+
+            <Hr />
+
             <PremiumFeatureContainer
               condition={!isSpellcheckerIncludedInCurrentPlan}
               gaEventInfo={{ category: 'User', event: 'upgrade', label: 'spellchecker' }}
