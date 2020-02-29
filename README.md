@@ -203,13 +203,14 @@ When pushing a new tag, the CI builds will create a draft GitHub release and upl
 
 ## Contributors ✨
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+Thanks goes to these awesome people:
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
   <tr>
+<<<<<<< Updated upstream
     <td align="center"><a href="https://vantezzen.io"><img src="https://avatars2.githubusercontent.com/u/10333196?v=4" width="40px;" alt=""/><br /><sub><b>Bennett</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/commits?author=vantezzen" title="Code">💻</a> <a href="#design-vantezzen" title="Design">🎨</a> <a href="https://github.com/getferdi/ferdi/commits?author=vantezzen" title="Documentation">📖</a> <a href="#ideas-vantezzen" title="Ideas, Planning, & Feedback">🤔</a> <a href="#translation-vantezzen" title="Translation">🌍</a> <a href="#example-vantezzen" title="Examples">💡</a> <a href="https://github.com/getferdi/ferdi/issues?q=author%3Avantezzen" title="Bug reports">🐛</a> <a href="#content-vantezzen" title="Content">🖋</a> <a href="#infra-vantezzen" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#userTesting-vantezzen" title="User Testing">📓</a> <a href="#question-vantezzen" title="Answering Questions">💬</a> <a href="#projectManagement-vantezzen" title="Project Management">📆</a> <a href="https://github.com/getferdi/ferdi/pulls?q=is%3Apr+reviewed-by%3Avantezzen" title="Reviewed Pull Requests">👀</a></td>
     <td align="center"><a href="http://www.adlk.io"><img src="https://avatars1.githubusercontent.com/u/3265004?v=4" width="40px;" alt=""/><br /><sub><b>Stefan Malzner</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/commits?author=adlk" title="Code">💻</a> <a href="#content-adlk" title="Content">🖋</a> <a href="#design-adlk" title="Design">🎨</a> <a href="https://github.com/getferdi/ferdi/commits?author=adlk" title="Documentation">📖</a> <a href="#ideas-adlk" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-adlk" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#projectManagement-adlk" title="Project Management">📆</a> <a href="https://github.com/getferdi/ferdi/commits?author=adlk" title="Tests">⚠️</a> <a href="#translation-adlk" title="Translation">🌍</a></td>
     <td align="center"><a href="https://twitter.com/kytwb"><img src="https://avatars0.githubusercontent.com/u/412895?v=4" width="40px;" alt=""/><br /><sub><b>Amine Mouafik</b></sub></a><br /><a href="#question-kytwb" title="Answering Questions">💬</a> <a href="https://github.com/getferdi/ferdi/commits?author=kytwb" title="Code">💻</a> <a href="https://github.com/getferdi/ferdi/commits?author=kytwb" title="Documentation">📖</a> <a href="#ideas-kytwb" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-kytwb" title="Maintenance">🚧</a> <a href="#platform-kytwb" title="Packaging/porting to new platform">📦</a> <a href="#projectManagement-kytwb" title="Project Management">📆</a> <a href="https://github.com/getferdi/ferdi/pulls?q=is%3Apr+reviewed-by%3Akytwb" title="Reviewed Pull Requests">👀</a> <a href="#infra-kytwb" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#fundingFinding-kytwb" title="Funding Finding">🔍</a> <a href="#blog-kytwb" title="Blogposts">📝</a></td>
@@ -239,6 +240,33 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/steliyan"><img src="https://avatars1.githubusercontent.com/u/1850292?v=4" width="40px;" alt=""/><br /><sub><b>Steliyan Stoyanov</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/commits?author=steliyan" title="Code">💻</a> <a href="#ideas-steliyan" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/brorbw"><img src="https://avatars2.githubusercontent.com/u/5909562?v=4" width="40px;" alt=""/><br /><sub><b>Bror Winther</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/commits?author=brorbw" title="Documentation">📖</a></td>
     <td align="center"><a href="https://fwdekker.com/"><img src="https://avatars0.githubusercontent.com/u/13442533?v=4" width="40px;" alt=""/><br /><sub><b>Felix W. Dekker</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/commits?author=FWDekker" title="Documentation">📖</a></td>
+=======
+    <td align="center"><a href='https://vantezzen.io' title='vantezzen is awesome!'><img src='https://avatars2.githubusercontent.com/u/10333196?v=4' alt='vantezzen' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='http://www.adlk.io' title='adlk is awesome!'><img src='https://avatars1.githubusercontent.com/u/3265004?v=4' alt='adlk' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='https://twitter.com/kytwb' title='kytwb is awesome!'><img src='https://avatars0.githubusercontent.com/u/412895?v=4' alt='kytwb' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='http://seriesgt.com' title='ZeroCool940711 is awesome!'><img src='https://avatars3.githubusercontent.com/u/5977640?v=4' alt='ZeroCool940711' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='https://github.com/rseitbekov' title='rseitbekov is awesome!'><img src='https://avatars2.githubusercontent.com/u/35684439?v=4' alt='rseitbekov' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='https://djangogigs.com/developers/peter-bittner/' title='bittner is awesome!'><img src='https://avatars2.githubusercontent.com/u/665072?v=4' alt='bittner' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='https://github.com/justus-saul' title='justus-saul is awesome!'><img src='https://avatars1.githubusercontent.com/u/5861826?v=4' alt='justus-saul' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='https://github.com/igreil' title='igreil is awesome!'><img src='https://avatars0.githubusercontent.com/u/17239151?v=4' alt='igreil' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='http://marcolopes.eu' title='marcolopes is awesome!'><img src='https://avatars1.githubusercontent.com/u/431889?v=4' alt='marcolopes' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='https://github.com/dayzlun' title='dayzlun is awesome!'><img src='https://avatars3.githubusercontent.com/u/17259690?v=4' alt='dayzlun' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='https://twitter.com/tobigue_' title='tobigue is awesome!'><img src='https://avatars2.githubusercontent.com/u/1560152?v=4' alt='tobigue' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='https://github.com/AGCaesar' title='AGCaesar is awesome!'><img src='https://avatars3.githubusercontent.com/u/7844066?v=4' alt='AGCaesar' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='https://github.com/Makazzz' title='Makazzz is awesome!'><img src='https://avatars2.githubusercontent.com/u/49844464?v=4' alt='Makazzz' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='https://github.com/xthursdayx' title='xthursdayx is awesome!'><img src='https://avatars0.githubusercontent.com/u/18044308?v=4' alt='xthursdayx' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='https://github.com/Gaboris' title='Gaboris is awesome!'><img src='https://avatars2.githubusercontent.com/u/9462372?v=4' alt='Gaboris' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='http://www.cu3ed.com/' title='incace is awesome!'><img src='https://avatars1.githubusercontent.com/u/61343?v=4' alt='incace' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href='http://pztrn.name/' title='pztrn is awesome!'><img src='https://avatars1.githubusercontent.com/u/869402?v=4' alt='pztrn' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='http://www.patrickcurl.com' title='patrickcurl is awesome!'><img src='https://avatars1.githubusercontent.com/u/1470061?v=4' alt='patrickcurl' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='https://github.com/Stanzilla' title='Stanzilla is awesome!'><img src='https://avatars3.githubusercontent.com/u/75278?v=4' alt='Stanzilla' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='https://github.com/ammarmalhas' title='ammarmalhas is awesome!'><img src='https://avatars1.githubusercontent.com/u/57057209?v=4' alt='ammarmalhas' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='https://github.com/steliyan' title='steliyan is awesome!'><img src='https://avatars1.githubusercontent.com/u/1850292?v=4' alt='steliyan' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='https://github.com/brorbw' title='brorbw is awesome!'><img src='https://avatars2.githubusercontent.com/u/5909562?v=4' alt='brorbw' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+    <td align="center"><a href='https://fwdekker.com/' title='FWDekker is awesome!'><img src='https://avatars0.githubusercontent.com/u/13442533?v=4' alt='FWDekker' style='border-radius: 42px;width:42px;height:42px'/></a></td>
+>>>>>>> Stashed changes
   </tr>
 </table>
 
