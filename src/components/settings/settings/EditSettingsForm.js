@@ -12,16 +12,11 @@ import PremiumFeatureContainer from '../../ui/PremiumFeatureContainer';
 import Input from '../../ui/Input';
 
 import { FRANZ_TRANSLATION } from '../../../config';
-import { isMac } from '../../../environment';
+import { isMac, isWindows } from '../../../environment';
 
-function escapeHtml(unsafe) {
-  return unsafe
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
+const {
+  systemPreferences,
+} = remote;
 
 const messages = defineMessages({
   headline: {
@@ -43,14 +38,6 @@ const messages = defineMessages({
   inactivityLockInfo: {
     id: 'settings.app.inactivityLockInfo',
     defaultMessage: '!!!Minutes of inactivity, after which Ferdi should automatically lock. Use 0 to disable',
-  },
-  serverInfo: {
-    id: 'settings.app.serverInfo',
-    defaultMessage: '!!!We advice you to logout after changing your server as your settings might not be saved otherwise.',
-  },
-  serverMoneyInfo: {
-    id: 'settings.app.serverMoneyInfo',
-    defaultMessage: '!!!You are using the official Franz Server for Ferdi.\nWe know that Ferdi allows you to use all its features for free but you are still using Franz\'s server resources - which Franz\'s creator has to pay for.\nPlease still consider [Link 1]paying for a Franz account[/Link] or [Link 2]using a self-hosted ferdi-server[/Link] (if you have the knowledge and resources to do so). \nBy using Ferdi, you still profit greatly from Franz\'s recipe store, server resources and its development.',
   },
   todoServerInfo: {
     id: 'settings.app.todoServerInfo',
@@ -169,12 +156,11 @@ export default @observer class EditSettingsForm extends Component {
     cacheSize: PropTypes.string.isRequired,
     isSpellcheckerIncludedInCurrentPlan: PropTypes.bool.isRequired,
     isTodosEnabled: PropTypes.bool.isRequired,
+    isTodosActivated: PropTypes.bool.isRequired,
     isWorkspaceEnabled: PropTypes.bool.isRequired,
-    server: PropTypes.string.isRequired,
-    noUpdates: PropTypes.bool.isRequired,
+    automaticUpdates: PropTypes.bool.isRequired,
     hibernationEnabled: PropTypes.bool.isRequired,
     isDarkmodeEnabled: PropTypes.bool.isRequired,
-    isTrayEnabled: PropTypes.bool.isRequired,
     isAdaptableDarkModeEnabled: PropTypes.bool.isRequired,
     openProcessManager: PropTypes.func.isRequired,
   };
@@ -210,12 +196,11 @@ export default @observer class EditSettingsForm extends Component {
       isSpellcheckerIncludedInCurrentPlan,
       isTodosEnabled,
       isWorkspaceEnabled,
-      server,
-      noUpdates,
+      automaticUpdates,
       hibernationEnabled,
       isDarkmodeEnabled,
-      isTrayEnabled,
       openProcessManager,
+      isTodosActivated,
     } = this.props;
     const { intl } = this.context;
 
@@ -227,8 +212,6 @@ export default @observer class EditSettingsForm extends Component {
     } else {
       updateButtonLabelMessage = messages.buttonSearchForUpdate;
     }
-
-    const isLoggedIn = Boolean(localStorage.getItem('authToken'));
 
     const {
       lockingFeatureEnabled,
@@ -251,7 +234,8 @@ export default @observer class EditSettingsForm extends Component {
             <Toggle field={form.$('autoLaunchOnStart')} />
             <Toggle field={form.$('runInBackground')} />
             <Toggle field={form.$('enableSystemTray')} />
-            {isTrayEnabled && <Toggle field={form.$('startMinimized')} />}
+            <Toggle field={form.$('reloadAfterResume')} />
+            <Toggle field={form.$('startMinimized')} />
             {process.platform === 'win32' && (
               <Toggle field={form.$('minimizeToSystemTray')} />
             )}
@@ -267,7 +251,10 @@ export default @observer class EditSettingsForm extends Component {
 
             <Toggle field={form.$('hibernate')} />
             {hibernationEnabled && (
-              <Select field={form.$('hibernationStrategy')} />
+              <>
+                <Select field={form.$('hibernationStrategy')} />
+                <Toggle field={form.$('hibernateOnStartup')} />
+              </>
             )}
             <p
               className="settings__message"
@@ -282,79 +269,50 @@ export default @observer class EditSettingsForm extends Component {
 
             <Hr />
 
-            <Input
-              placeholder="Server"
-              onChange={e => this.submit(e)}
-              field={form.$('server')}
-              autoFocus
-            />
-            {isLoggedIn && (
-              <p
-                className="settings__message"
-                style={{
-                  borderTop: 0, marginTop: 0, paddingTop: 0, marginBottom: '2rem',
-                }}
-              >
-                { intl.formatMessage(messages.serverInfo) }
-              </p>
-            )}
-            {server === 'https://api.franzinfra.com' && (
-              <p
-                className="settings__message"
-                style={{
-                  borderTop: 0, marginTop: 0, paddingTop: 0, marginBottom: '2rem',
-                }}
-              >
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html:
-                  // Needed to make links work
-                  escapeHtml(
-                    intl.formatMessage(messages.serverMoneyInfo),
-                  ).replace('[Link 1]', '<a href="https://www.meetfranz.com/pricing" target="_blank">')
-                    .replace('[Link 2]', '<a href="https://github.com/getferdi/server" target="_blank">')
-                    .replace(/\[\/Link]/g, '</a>'),
-                  }}
-                  style={{
-                    whiteSpace: 'pre-wrap',
-                  }}
-                />
-              </p>
-            )}
-
-            <Hr />
-
             {isWorkspaceEnabled && (
               <Toggle field={form.$('keepAllWorkspacesLoaded')} />
             )}
-
 
             <Hr />
 
             {isTodosEnabled && (
               <>
                 <Toggle field={form.$('enableTodos')} />
-                <Input
-                  placeholder="Todo Server"
-                  onChange={e => this.submit(e)}
-                  field={form.$('todoServer')}
-                />
-                <p
-                  className="settings__message"
-                  style={{
-                    borderTop: 0, marginTop: 0, paddingTop: 0, marginBottom: '2rem',
-                  }}
-                >
-                  { intl.formatMessage(messages.todoServerInfo) }
-                </p>
+                {isTodosActivated && (
+                  <div>
+                    <Select field={form.$('predefinedTodoServer')} />
+                    {form.$('predefinedTodoServer').value === 'isUsingCustomTodoService' && (
+                      <div>
+                        <Input
+                          placeholder="Todo Server"
+                          onChange={e => this.submit(e)}
+                          field={form.$('customTodoServer')}
+                        />
+                        <p
+                          className="settings__message"
+                          style={{
+                            borderTop: 0, marginTop: 0, paddingTop: 0, marginBottom: '2rem',
+                          }}
+                        >
+                          { intl.formatMessage(messages.todoServerInfo) }
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
               </>
             )}
+
 
             <Hr />
 
             <Toggle field={form.$('lockingFeatureEnabled')} />
             {lockingFeatureEnabled && (
               <>
+                {systemPreferences.canPromptTouchID() && (
+                  <Toggle field={form.$('useTouchIdToUnlock')} />
+                )}
+
                 <Input
                   placeholder={intl.formatMessage(messages.lockedPassword)}
                   onChange={e => this.submit(e)}
@@ -446,10 +404,12 @@ export default @observer class EditSettingsForm extends Component {
             <Toggle field={form.$('showDisabledServices')} />
             <Toggle field={form.$('showMessageBadgeWhenMuted')} />
 
+            {isMac && <Toggle field={form.$('showDragArea')} />}
+
             <Hr />
 
-            {isMac && <Toggle field={form.$('adaptableDarkMode')} />}
-            {!(isMac && isAdaptableDarkModeEnabled) && <Toggle field={form.$('darkMode')} />}
+            {(isMac || isWindows) && <Toggle field={form.$('adaptableDarkMode')} />}
+            {!((isMac || isWindows) && isAdaptableDarkModeEnabled) && <Toggle field={form.$('darkMode')} />}
             {(isDarkmodeEnabled || isAdaptableDarkModeEnabled) && (
               <>
                 <Toggle field={form.$('universalDarkMode')} />
@@ -546,36 +506,46 @@ export default @observer class EditSettingsForm extends Component {
 
             {/* Updates */}
             <h2 id="updates">{intl.formatMessage(messages.headlineUpdates)}</h2>
-            {updateIsReadyToInstall ? (
-              <Button
-                label={intl.formatMessage(messages.buttonInstallUpdate)}
-                onClick={installUpdate}
-              />
-            ) : (
-              <Button
-                buttonType="secondary"
-                label={intl.formatMessage(updateButtonLabelMessage)}
-                onClick={checkForUpdates}
-                disabled={noUpdates || isCheckingForUpdates || isUpdateAvailable}
-                loaded={!isCheckingForUpdates || !isUpdateAvailable}
-              />
+            <Toggle field={form.$('automaticUpdates')} />
+            {automaticUpdates && (
+              <div>
+                <Toggle field={form.$('beta')} />
+                {updateIsReadyToInstall ? (
+                  <Button
+                    label={intl.formatMessage(messages.buttonInstallUpdate)}
+                    onClick={installUpdate}
+                  />
+                ) : (
+                  <Button
+                    buttonType="secondary"
+                    label={intl.formatMessage(updateButtonLabelMessage)}
+                    onClick={checkForUpdates}
+                    disabled={!automaticUpdates || isCheckingForUpdates || isUpdateAvailable}
+                    loaded={!isCheckingForUpdates || !isUpdateAvailable}
+                  />
+                )}
+                <br />
+              </div>
             )}
-            <br />
-            <Toggle field={form.$('beta')} />
-            <Toggle field={form.$('noUpdates')} />
             {intl.formatMessage(messages.currentVersion)}
             {' '}
             {remote.app.getVersion()}
-            <br />
-            <br />
-            {noUpdateAvailable && intl.formatMessage(messages.updateStatusUpToDate)}
+            {noUpdateAvailable && (
+              <>
+                <br />
+                <br />
+                {intl.formatMessage(messages.updateStatusUpToDate)}
+              </>
+            )
+            }
             <p className="settings__message">
-
               <span className="mdi mdi-github-face" />
               <span>
+
                 Ferdi is based on
                 {' '}
                 <a href="https://github.com/meetfranz/franz" target="_blank">Franz</a>
+
                 , a project published
                 under the
                 {' '}

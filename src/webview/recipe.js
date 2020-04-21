@@ -1,10 +1,11 @@
 /* eslint-disable import/first */
-import { ipcRenderer } from 'electron';
+import { ipcRenderer, remote } from 'electron';
 import path from 'path';
 import { autorun, computed, observable } from 'mobx';
 import fs from 'fs-extra';
 import { loadModule } from 'cld3-asm';
 import { debounce } from 'lodash';
+import { FindInPage } from 'electron-find';
 
 // For some services darkreader tries to use the chrome extension message API
 // This will cause the service to fail loading
@@ -20,10 +21,10 @@ import ignoreList from './darkmode/ignore';
 import customDarkModeCss from './darkmode/custom';
 
 import RecipeWebview from './lib/RecipeWebview';
+import Userscript from './lib/Userscript';
 
 import spellchecker, { switchDict, disable as disableSpellchecker, getSpellcheckerLocaleByFuzzyIdentifier } from './spellchecker';
 import { injectDarkModeStyle, isDarkModeStyleInjected, removeDarkModeStyle } from './darkmode';
-import contextMenu from './contextMenu';
 import './notifications';
 
 import { DEFAULT_APP_SETTINGS } from '../config';
@@ -48,9 +49,16 @@ class RecipeController {
     'settings-update': 'updateAppSettings',
     'service-settings-update': 'updateServiceSettings',
     'get-service-id': 'serviceIdEcho',
+    'find-in-page': 'openFindInPage',
   };
 
   universalDarkModeInjected = false;
+
+  recipe = null;
+
+  userscript = null;
+
+  hasUpdatedBeforeRecipeLoaded = false;
 
   constructor() {
     this.initialize();
@@ -62,6 +70,8 @@ class RecipeController {
 
   cldIdentifier = null;
 
+  findInPage = null;
+
   async initialize() {
     Object.keys(this.ipcEvents).forEach((channel) => {
       ipcRenderer.on(channel, (...args) => {
@@ -72,16 +82,15 @@ class RecipeController {
 
     debug('Send "hello" to host');
     setTimeout(() => ipcRenderer.sendToHost('hello'), 100);
-
-    this.spellcheckingProvider = await spellchecker();
-    contextMenu(
-      this.spellcheckingProvider,
-      () => this.settings.app.enableSpellchecking,
-      () => this.settings.app.spellcheckerLanguage,
-      () => this.spellcheckerLanguage,
-    );
-
+    await spellchecker();
     autorun(() => this.update());
+
+    document.addEventListener('DOMContentLoaded', () => {
+      this.findInPage = new FindInPage(remote.getCurrentWebContents(), {
+        inputFocusColor: '#CE9FFC',
+        textColor: '#212121',
+      });
+    });
   }
 
   loadRecipeModule(event, config, recipe) {
@@ -91,11 +100,15 @@ class RecipeController {
     // Delete module from cache
     delete require.cache[require.resolve(modulePath)];
     try {
+      this.recipe = new RecipeWebview();
       // eslint-disable-next-line
-      require(modulePath)(new RecipeWebview(), {...config, recipe,});
+      require(modulePath)(this.recipe, {...config, recipe,});
       debug('Initialize Recipe', config, recipe);
 
       this.settings.service = Object.assign(config, { recipe });
+
+      // Make sure to update the WebView, otherwise the custom darkmode handler may not be used
+      this.update();
     } catch (err) {
       console.error('Recipe initialization failed', err);
     }
@@ -120,7 +133,8 @@ class RecipeController {
         const userJsModule = require(userJs);
 
         if (typeof userJsModule === 'function') {
-          userJsModule(config);
+          this.userscript = new Userscript(this.recipe, this, config);
+          userJsModule(config, this.userscript);
         }
       };
 
@@ -134,11 +148,20 @@ class RecipeController {
     }
   }
 
+  openFindInPage() {
+    this.findInPage.openFindWindow();
+  }
+
   update() {
     debug('enableSpellchecking', this.settings.app.enableSpellchecking);
     debug('isDarkModeEnabled', this.settings.service.isDarkModeEnabled);
     debug('System spellcheckerLanguage', this.settings.app.spellcheckerLanguage);
     debug('Service spellcheckerLanguage', this.settings.service.spellcheckerLanguage);
+    debug('darkReaderSettigs', this.settings.service.darkReaderSettings);
+
+    if (this.userscript && this.userscript.internal_setSettings) {
+      this.userscript.internal_setSettings(this.settings);
+    }
 
     if (this.settings.app.enableSpellchecking) {
       debug('Setting spellchecker language to', this.spellcheckerLanguage);
@@ -160,12 +183,25 @@ class RecipeController {
       }
     }
 
+    if (!this.recipe) {
+      this.hasUpdatedBeforeRecipeLoaded = true;
+    }
+
     console.log(
       'Darkmode enabled?',
       this.settings.service.isDarkModeEnabled,
       'Dark theme active?',
       this.settings.app.isDarkThemeActive,
     );
+
+    const handlerConfig = {
+      removeDarkModeStyle,
+      disableDarkMode,
+      enableDarkMode,
+      injectDarkModeStyle: () => injectDarkModeStyle(this.settings.service.recipe.path),
+      isDarkModeStyleInjected,
+    };
+
     if (this.settings.service.isDarkModeEnabled && this.settings.app.isDarkThemeActive !== false) {
       debug('Enable dark mode');
 
@@ -175,7 +211,19 @@ class RecipeController {
 
       console.log('darkmode.css exists? ', darkModeExists ? 'Yes' : 'No');
 
-      if (darkModeExists) {
+      // Check if recipe has a custom dark mode handler
+      if (this.recipe && this.recipe.darkModeHandler) {
+        console.log('Using custom dark mode handler');
+
+        // Remove other dark mode styles if they were already loaded
+        if (this.hasUpdatedBeforeRecipeLoaded) {
+          this.hasUpdatedBeforeRecipeLoaded = false;
+          removeDarkModeStyle();
+          disableDarkMode();
+        }
+
+        this.recipe.darkModeHandler(true, handlerConfig);
+      } else if (darkModeExists) {
         console.log('Injecting darkmode.css');
         injectDarkModeStyle(this.settings.service.recipe.path);
 
@@ -183,10 +231,11 @@ class RecipeController {
         disableDarkMode();
         this.universalDarkModeInjected = false;
       } else if (this.settings.app.universalDarkMode && !ignoreList.includes(window.location.host)) {
-        console.log('Injecting DarkReader');
+        console.log('Injecting Dark Reader');
 
-        // Use darkreader instead
-        enableDarkMode({}, {
+        // Use Dark Reader instead
+        const { brightness, contrast, sepia } = this.settings.service.darkReaderSettings;
+        enableDarkMode({ brightness, contrast, sepia }, {
           css: customDarkModeCss[window.location.host] || '',
         });
         this.universalDarkModeInjected = true;
@@ -195,11 +244,20 @@ class RecipeController {
       debug('Remove dark mode');
       console.log('DarkMode disabled - removing remaining styles');
 
-      if (isDarkModeStyleInjected()) {
+      if (this.recipe && this.recipe.darkModeHandler) {
+        // Remove other dark mode styles if they were already loaded
+        if (this.hasUpdatedBeforeRecipeLoaded) {
+          this.hasUpdatedBeforeRecipeLoaded = false;
+          removeDarkModeStyle();
+          disableDarkMode();
+        }
+
+        this.recipe.darkModeHandler(false, handlerConfig);
+      } else if (isDarkModeStyleInjected()) {
         console.log('Removing injected darkmode.css');
         removeDarkModeStyle();
       } else {
-        console.log('Removing DarkReader');
+        console.log('Removing Dark Reader');
 
         disableDarkMode();
         this.universalDarkModeInjected = false;
@@ -273,7 +331,6 @@ new RecipeController();
 
 // Patching window.open
 const originalWindowOpen = window.open;
-
 
 window.open = (url, frameName, features) => {
   if (!url && !frameName && !features) {

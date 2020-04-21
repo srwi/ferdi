@@ -11,7 +11,7 @@ import TodosStore from '../../features/todos/store';
 import Form from '../../lib/Form';
 import { APP_LOCALES, SPELLCHECKER_LOCALES } from '../../i18n/languages';
 import {
-  DEFAULT_APP_SETTINGS, HIBERNATION_STRATEGIES, SIDEBAR_WIDTH, ICON_SIZES, NAVIGATION_BAR_BEHAVIOURS,
+  DEFAULT_APP_SETTINGS, HIBERNATION_STRATEGIES, SIDEBAR_WIDTH, ICON_SIZES, NAVIGATION_BAR_BEHAVIOURS, TODO_APPS,
 } from '../../config';
 import { config as spellcheckerConfig } from '../../features/spellchecker';
 
@@ -19,8 +19,6 @@ import { getSelectOptions } from '../../helpers/i18n-helpers';
 
 import EditSettingsForm from '../../components/settings/settings/EditSettingsForm';
 import ErrorBoundary from '../../components/util/ErrorBoundary';
-
-import { API, TODOS_FRONTEND } from '../../environment';
 
 import globalMessages from '../../i18n/globalMessages';
 import { DEFAULT_IS_FEATURE_ENABLED_BY_USER } from '../../features/todos';
@@ -42,11 +40,15 @@ const messages = defineMessages({
   },
   startMinimized: {
     id: 'settings.app.form.startMinimized',
-    defaultMessage: '!!!Start minimized in tray',
+    defaultMessage: '!!!Start minimized',
   },
   enableSystemTray: {
     id: 'settings.app.form.enableSystemTray',
     defaultMessage: '!!!Always show Ferdi in system tray',
+  },
+  reloadAfterResume: {
+    id: 'settings.app.form.reloadAfterResume',
+    defaultMessage: '!!!Reload Ferdi after system resume',
   },
   minimizeToSystemTray: {
     id: 'settings.app.form.minimizeToSystemTray',
@@ -68,17 +70,21 @@ const messages = defineMessages({
     id: 'settings.app.form.hibernate',
     defaultMessage: '!!!Enable service hibernation',
   },
+  hibernateOnStartup: {
+    id: 'settings.app.form.hibernateOnStartup',
+    defaultMessage: '!!!Keep services in hibernation on startup',
+  },
   hibernationStrategy: {
     id: 'settings.app.form.hibernationStrategy',
     defaultMessage: '!!!Hibernation strategy',
   },
-  server: {
-    id: 'settings.app.form.server',
-    defaultMessage: '!!!Server',
-  },
-  todoServer: {
-    id: 'settings.app.form.todoServer',
+  predefinedTodoServer: {
+    id: 'settings.app.form.predefinedTodoServer',
     defaultMessage: '!!!Todo Server',
+  },
+  customTodoServer: {
+    id: 'settings.app.form.customTodoServer',
+    defaultMessage: '!!!Custom TodoServer',
   },
   enableLock: {
     id: 'settings.app.form.enableLock',
@@ -87,6 +93,10 @@ const messages = defineMessages({
   lockPassword: {
     id: 'settings.app.form.lockPassword',
     defaultMessage: '!!!Password',
+  },
+  useTouchIdToUnlock: {
+    id: 'settings.app.form.useTouchIdToUnlock',
+    defaultMessage: '!!!Allow using Touch ID to unlock',
   },
   inactivityLock: {
     id: 'settings.app.form.inactivityLock',
@@ -114,7 +124,7 @@ const messages = defineMessages({
   },
   adaptableDarkMode: {
     id: 'settings.app.form.adaptableDarkMode',
-    defaultMessage: '!!!Synchronize dark mode with my Mac\'s dark mode setting',
+    defaultMessage: '!!!Synchronize dark mode with my OS\'s dark mode setting',
   },
   universalDarkMode: {
     id: 'settings.app.form.universalDarkMode',
@@ -140,6 +150,10 @@ const messages = defineMessages({
     id: 'settings.app.form.showMessagesBadgesWhenMuted',
     defaultMessage: '!!!Show unread message badge when notifications are disabled',
   },
+  showDragArea: {
+    id: 'settings.app.form.showDragArea',
+    defaultMessage: '!!!Show draggable area on window',
+  },
   enableSpellchecking: {
     id: 'settings.app.form.enableSpellchecking',
     defaultMessage: '!!!Enable spell checking',
@@ -152,9 +166,9 @@ const messages = defineMessages({
     id: 'settings.app.form.beta',
     defaultMessage: '!!!Include beta versions',
   },
-  noUpdates: {
-    id: 'settings.app.form.noUpdates',
-    defaultMessage: '!!!Disable updates',
+  automaticUpdates: {
+    id: 'settings.app.form.automaticUpdates',
+    defaultMessage: '!!!Enable updates',
   },
   enableTodos: {
     id: 'settings.app.form.enableTodos',
@@ -191,17 +205,20 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
       data: {
         runInBackground: settingsData.runInBackground,
         enableSystemTray: settingsData.enableSystemTray,
+        reloadAfterResume: settingsData.reloadAfterResume,
         startMinimized: settingsData.startMinimized,
         minimizeToSystemTray: settingsData.minimizeToSystemTray,
         privateNotifications: settingsData.privateNotifications,
         navigationBarBehaviour: settingsData.navigationBarBehaviour,
         sentry: settingsData.sentry,
         hibernate: settingsData.hibernate,
+        hibernateOnStartup: settingsData.hibernateOnStartup,
         hibernationStrategy: settingsData.hibernationStrategy,
-        server: settingsData.server,
-        todoServer: settingsData.todoServer,
+        predefinedTodoServer: settingsData.predefinedTodoServer,
+        customTodoServer: settingsData.customTodoServer,
         lockingFeatureEnabled: settingsData.lockingFeatureEnabled,
         lockedPassword: settingsData.lockedPassword,
+        useTouchIdToUnlock: settingsData.useTouchIdToUnlock,
         inactivityLock: settingsData.inactivityLock,
         scheduledDNDEnabled: settingsData.scheduledDNDEnabled,
         scheduledDNDStart: settingsData.scheduledDNDStart,
@@ -215,17 +232,18 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
         iconSize: settingsData.iconSize,
         accentColor: settingsData.accentColor,
         showMessageBadgeWhenMuted: settingsData.showMessageBadgeWhenMuted,
+        showDragArea: settingsData.showDragArea,
         enableSpellchecking: settingsData.enableSpellchecking,
         spellcheckerLanguage: settingsData.spellcheckerLanguage,
         beta: settingsData.beta, // we need this info in the main process as well
-        noUpdates: settingsData.noUpdates, // we need this info in the main process as well
+        automaticUpdates: settingsData.automaticUpdates, // we need this info in the main process as well
         locale: settingsData.locale, // we need this info in the main process as well
       },
     });
 
     user.update({
       userData: {
-        noUpdates: settingsData.noUpdates,
+        automaticUpdates: settingsData.automaticUpdates,
         beta: settingsData.beta,
         locale: settingsData.locale,
       },
@@ -267,6 +285,11 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
 
     const hibernationStrategies = getSelectOptions({
       locales: HIBERNATION_STRATEGIES,
+      sort: false,
+    });
+
+    const todoApp = getSelectOptions({
+      locales: TODO_APPS,
       sort: false,
     });
 
@@ -312,6 +335,11 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
           value: settings.all.app.enableSystemTray,
           default: DEFAULT_APP_SETTINGS.enableSystemTray,
         },
+        reloadAfterResume: {
+          label: intl.formatMessage(messages.reloadAfterResume),
+          value: settings.all.app.reloadAfterResume,
+          default: DEFAULT_APP_SETTINGS.reloadAfterResume,
+        },
         minimizeToSystemTray: {
           label: intl.formatMessage(messages.minimizeToSystemTray),
           value: settings.all.app.minimizeToSystemTray,
@@ -338,21 +366,27 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
           value: settings.all.app.hibernate,
           default: DEFAULT_APP_SETTINGS.hibernate,
         },
+        hibernateOnStartup: {
+          label: intl.formatMessage(messages.hibernateOnStartup),
+          value: settings.all.app.hibernateOnStartup,
+          default: DEFAULT_APP_SETTINGS.hibernateOnStartup,
+        },
         hibernationStrategy: {
           label: intl.formatMessage(messages.hibernationStrategy),
           value: settings.all.app.hibernationStrategy,
           options: hibernationStrategies,
           default: DEFAULT_APP_SETTINGS.hibernationStrategy,
         },
-        server: {
-          label: intl.formatMessage(messages.server),
-          value: settings.all.app.server || API,
-          default: API,
+        predefinedTodoServer: {
+          label: intl.formatMessage(messages.predefinedTodoServer),
+          value: settings.all.app.predefinedTodoServer,
+          default: DEFAULT_APP_SETTINGS.predefinedTodoServer,
+          options: todoApp,
         },
-        todoServer: {
-          label: intl.formatMessage(messages.todoServer),
-          value: settings.all.app.todoServer,
-          default: TODOS_FRONTEND,
+        customTodoServer: {
+          label: intl.formatMessage(messages.customTodoServer),
+          value: settings.all.app.customTodoServer,
+          default: DEFAULT_APP_SETTINGS.customTodoServer,
         },
         lockingFeatureEnabled: {
           label: intl.formatMessage(messages.enableLock),
@@ -364,6 +398,11 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
           value: settings.all.app.lockedPassword,
           default: '',
           type: 'password',
+        },
+        useTouchIdToUnlock: {
+          label: intl.formatMessage(messages.useTouchIdToUnlock),
+          value: settings.all.app.useTouchIdToUnlock,
+          default: DEFAULT_APP_SETTINGS.useTouchIdToUnlock,
         },
         inactivityLock: {
           label: intl.formatMessage(messages.inactivityLock),
@@ -397,6 +436,11 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
           label: intl.formatMessage(messages.showMessageBadgeWhenMuted),
           value: settings.all.app.showMessageBadgeWhenMuted,
           default: DEFAULT_APP_SETTINGS.showMessageBadgeWhenMuted,
+        },
+        showDragArea: {
+          label: intl.formatMessage(messages.showDragArea),
+          value: settings.all.app.showDragArea,
+          default: DEFAULT_APP_SETTINGS.showDragArea,
         },
         enableSpellchecking: {
           label: intl.formatMessage(messages.enableSpellchecking),
@@ -457,10 +501,10 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
           value: user.data.beta,
           default: DEFAULT_APP_SETTINGS.beta,
         },
-        noUpdates: {
-          label: intl.formatMessage(messages.noUpdates),
-          value: settings.app.noUpdates,
-          default: DEFAULT_APP_SETTINGS.noUpdates,
+        automaticUpdates: {
+          label: intl.formatMessage(messages.automaticUpdates),
+          value: settings.app.automaticUpdates,
+          default: DEFAULT_APP_SETTINGS.automaticUpdates,
         },
       },
     };
@@ -521,13 +565,13 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
           isSpellcheckerIncludedInCurrentPlan={spellcheckerConfig.isIncludedInCurrentPlan}
           isTodosEnabled={todos.isFeatureActive}
           isWorkspaceEnabled={workspaces.isFeatureActive}
-          server={this.props.stores.settings.app.server}
           lockingFeatureEnabled={lockingFeatureEnabled}
-          noUpdates={this.props.stores.settings.app.noUpdates}
+          automaticUpdates={this.props.stores.settings.app.automaticUpdates}
           hibernationEnabled={this.props.stores.settings.app.hibernate}
           isDarkmodeEnabled={this.props.stores.settings.app.darkMode}
-          isTrayEnabled={this.props.stores.settings.app.enableSystemTray}
           isAdaptableDarkModeEnabled={this.props.stores.settings.app.adaptableDarkMode}
+          isTodosActivated={this.props.stores.todos.isFeatureEnabledByUser}
+          isUsingCustomTodoService={this.props.stores.todos.isUsingCustomTodoService}
           openProcessManager={() => this.openProcessManager()}
         />
       </ErrorBoundary>

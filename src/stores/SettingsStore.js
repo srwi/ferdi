@@ -1,5 +1,7 @@
 import { ipcRenderer, remote } from 'electron';
-import { action, computed, observable, reaction } from 'mobx';
+import {
+  action, computed, observable, reaction,
+} from 'mobx';
 import localStorage from 'mobx-localstorage';
 import { DEFAULT_APP_SETTINGS, FILE_SYSTEM_SETTINGS_TYPES, LOCAL_SERVER } from '../config';
 import { API } from '../environment';
@@ -12,6 +14,7 @@ const debug = require('debug')('Ferdi:SettingsStore');
 
 export default class SettingsStore extends Store {
   @observable updateAppSettingsRequest = new Request(this.api.local, 'updateAppSettings');
+
   startup = true;
 
   fileSystemSettingsTypes = FILE_SYSTEM_SETTINGS_TYPES;
@@ -103,10 +106,11 @@ export default class SettingsStore extends Store {
             // So we lock manually
             window.ferdi.stores.router.push('/auth/locked');
           }
-        })
+        });
       }
       debug('Get appSettings resolves', resp.type, resp.data);
       Object.assign(this._fileSystemSettingsCache[resp.type], resp.data);
+      ipcRenderer.send('initialAppSettings', resp);
     });
 
     this.fileSystemSettingsTypes.forEach((type) => {
@@ -259,6 +263,43 @@ export default class SettingsStore extends Store {
           '5.4.4-beta.2-settings': true,
         },
       });
+    }
+
+    if (!this.all.migration['5.4.4-beta.4-settings']) {
+      this.actions.settings.update({
+        type: 'app',
+        data: {
+          todoServer: 'isUsingCustomTodoService',
+          customTodoServer: legacySettings.todoServer,
+        },
+      });
+
+      this.actions.settings.update({
+        type: 'migration',
+        data: {
+          '5.4.4-beta.4-settings': true,
+        },
+      });
+
+      debug('Migrated old todo setting to new custom todo setting');
+    }
+
+    if (!this.all.migration['5.4.4-beta.4-settings']) {
+      this.actions.settings.update({
+        type: 'app',
+        data: {
+          automaticUpdates: !(legacySettings.noUpdates),
+        },
+      });
+
+      this.actions.settings.update({
+        type: 'migration',
+        data: {
+          '5.4.4-beta.4-settings': true,
+        },
+      });
+
+      debug('Migrated updates settings');
     }
   }
 }

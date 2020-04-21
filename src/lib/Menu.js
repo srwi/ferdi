@@ -10,8 +10,9 @@ import { CUSTOM_WEBSITE_ID } from '../features/webControls/constants';
 import { workspaceActions } from '../features/workspaces/actions';
 import { workspaceStore } from '../features/workspaces/index';
 
-
-const { app, Menu, dialog } = remote;
+const {
+  app, Menu, dialog, systemPreferences,
+} = remote;
 
 const menuItems = defineMessages({
   edit: {
@@ -49,6 +50,10 @@ const menuItems = defineMessages({
   selectAll: {
     id: 'menu.edit.selectAll',
     defaultMessage: '!!!Select All',
+  },
+  findInPage: {
+    id: 'menu.edit.findInPage',
+    defaultMessage: '!!!Find in Page',
   },
   speech: {
     id: 'menu.edit.speech',
@@ -105,6 +110,10 @@ const menuItems = defineMessages({
   toggleFullScreen: {
     id: 'menu.view.toggleFullScreen',
     defaultMessage: '!!!Toggle Full Screen',
+  },
+  toggleDarkMode: {
+    id: 'menu.view.toggleDarkMode',
+    defaultMessage: '!!!Toggle Dark Mode',
   },
   toggleDevTools: {
     id: 'menu.view.toggleDevTools',
@@ -165,6 +174,14 @@ const menuItems = defineMessages({
   debugInfoCopiedBody: {
     id: 'menu.help.debugInfoCopiedBody',
     defaultMessage: '!!!Your Debug Information has been copied to your clipboard.',
+  },
+  touchId: {
+    id: 'locked.touchId',
+    defaultMessage: '!!!Unlock with Touch ID',
+  },
+  touchIdPrompt: {
+    id: 'locked.touchIdPrompt',
+    defaultMessage: '!!!unlock via Touch ID',
   },
   tos: {
     id: 'menu.help.tos',
@@ -367,6 +384,27 @@ const _templateFactory = (intl, locked) => [
         type: 'separator',
       },
       {
+        label: intl.formatMessage(menuItems.findInPage),
+        accelerator: 'CmdOrCtrl+F',
+        click() {
+          // Check if there is a service active
+          if (!window.ferdi.stores.services.active) return;
+
+          // Focus webview so find in page popup gets focused
+          window.ferdi.stores.services.active.webview.focus();
+
+          const currentService = window.ferdi.stores.services.active.id;
+          window.ferdi.actions.service.sendIPCMessage({
+            serviceId: currentService,
+            channel: 'find-in-page',
+            args: {},
+          });
+        },
+      },
+      {
+        type: 'separator',
+      },
+      {
         label: intl.formatMessage(menuItems.back),
         accelerator: 'CmdOrCtrl+Left',
         click() {
@@ -422,6 +460,20 @@ const _templateFactory = (intl, locked) => [
           ? intl.formatMessage(menuItems.exitFullScreen)
           : intl.formatMessage(menuItems.enterFullScreen),
         role: 'togglefullscreen',
+      },
+      {
+        label: intl.formatMessage(menuItems.toggleDarkMode),
+        type: 'checkbox',
+        accelerator: `${cmdKey}+Shift+D`,
+        checked: window.ferdi.stores.settings.app.darkMode,
+        click: () => {
+          window.ferdi.actions.settings.update({
+            type: 'app',
+            data: {
+              darkMode: !window.ferdi.stores.settings.app.darkMode,
+            },
+          });
+        },
       },
     ],
   },
@@ -575,6 +627,27 @@ const _titleBarTemplateFactory = (intl, locked) => [
         type: 'separator',
       },
       {
+        label: intl.formatMessage(menuItems.findInPage),
+        accelerator: 'CmdOrCtrl+F',
+        click() {
+          // Check if there is a service active
+          if (!window.ferdi.stores.services.active) return;
+
+          // Focus webview so find in page popup gets focused
+          window.ferdi.stores.services.active.webview.focus();
+
+          const currentService = window.ferdi.stores.services.active.id;
+          window.ferdi.actions.service.sendIPCMessage({
+            serviceId: currentService,
+            channel: 'find-in-page',
+            args: {},
+          });
+        },
+      },
+      {
+        type: 'separator',
+      },
+      {
         label: intl.formatMessage(menuItems.back),
         accelerator: 'CmdOrCtrl+Left',
         click() {
@@ -632,6 +705,20 @@ const _titleBarTemplateFactory = (intl, locked) => [
         accelerator: 'F11',
         click(menuItem, browserWindow) {
           browserWindow.setFullScreen(!browserWindow.isFullScreen());
+        },
+      },
+      {
+        label: intl.formatMessage(menuItems.toggleDarkMode),
+        type: 'checkbox',
+        accelerator: `${cmdKey}+Shift+D`,
+        checked: window.ferdi.stores.settings.app.darkMode,
+        click: () => {
+          window.ferdi.actions.settings.update({
+            type: 'app',
+            data: {
+              darkMode: !window.ferdi.stores.settings.app.darkMode,
+            },
+          });
         },
       },
       {
@@ -755,7 +842,7 @@ export default class FranzMenu {
       : _titleBarTemplateFactory(intl, this.stores.settings.app.locked);
     const { actions } = this;
 
-    if (this.stores.settings.app.locked) {
+    if (!this.stores.settings.app.locked) {
       tpl[1].submenu.push({
         type: 'separator',
       }, {
@@ -819,7 +906,7 @@ export default class FranzMenu {
               locked: true,
             },
           });
-        }
+        },
       });
 
       if (serviceTpl.length > 0) {
@@ -833,6 +920,27 @@ export default class FranzMenu {
       if (todosStore.isFeatureEnabled) {
         tpl[5].submenu = this.todosMenu();
       }
+    } else {
+      const touchIdEnabled = this.stores.settings.app.useTouchIdToUnlock && systemPreferences.canPromptTouchID();
+
+      tpl[0].submenu.unshift({
+        label: intl.formatMessage(menuItems.touchId),
+        accelerator: 'CmdOrCtrl+Shift+L',
+        visible: touchIdEnabled,
+        click() {
+          systemPreferences.promptTouchID(intl.formatMessage(menuItems.touchIdPrompt)).then(() => {
+            actions.settings.update({
+              type: 'app',
+              data: {
+                locked: false,
+              },
+            });
+          });
+        },
+      }, {
+        type: 'separator',
+        visible: touchIdEnabled,
+      });
     }
 
     tpl.unshift({
@@ -964,19 +1072,19 @@ export default class FranzMenu {
       }, about);
     }
 
-    if (serviceTpl.length > 0) {
-      tpl[3].submenu = serviceTpl;
-    }
-
-    if (workspaceStore.isFeatureEnabled) {
-      tpl[4].submenu = this.workspacesMenu();
-    }
-
-    if (todosStore.isFeatureEnabled) {
-      tpl[5].submenu = this.todosMenu();
-    }
-
     if (!this.stores.settings.app.locked) {
+      if (serviceTpl.length > 0) {
+        tpl[3].submenu = serviceTpl;
+      }
+
+      if (workspaceStore.isFeatureEnabled) {
+        tpl[4].submenu = this.workspacesMenu();
+      }
+
+      if (todosStore.isFeatureEnabled) {
+        tpl[5].submenu = this.todosMenu();
+      }
+
       tpl[tpl.length - 1].submenu.push({
         type: 'separator',
       }, ...this.debugMenu());
