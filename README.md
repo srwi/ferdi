@@ -294,9 +294,8 @@ Thanks goes to these awesome people:
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
-<table>
-  <tr>
-    <td align="center"><a href='https://vantezzen.io' title='vantezzen is awesome!'><img src='https://avatars2.githubusercontent.com/u/10333196?v=4' alt='vantezzen' width='42px' /></a></td>
+<p>
+     <td align="center"><a href='https://vantezzen.io' title='vantezzen is awesome!'><img src='https://avatars2.githubusercontent.com/u/10333196?v=4' alt='vantezzen' width='42px' /></a></td>
     <td align="center"><a href='https://twitter.com/kytwb' title='kytwb is awesome!'><img src='https://avatars0.githubusercontent.com/u/412895?v=4' alt='kytwb' width='42px' /></a></td>
     <td align="center"><a href='http://www.adlk.io' title='adlk is awesome!'><img src='https://avatars1.githubusercontent.com/u/3265004?v=4' alt='adlk' width='42px' /></a></td>
     <td align="center"><a href='https://github.com/Makazzz' title='Makazzz is awesome!'><img src='https://avatars2.githubusercontent.com/u/49844464?v=4' alt='Makazzz' width='42px' /></a></td>
@@ -312,9 +311,7 @@ Thanks goes to these awesome people:
     <td align="center"><a href='https://github.com/xthursdayx' title='xthursdayx is awesome!'><img src='https://avatars0.githubusercontent.com/u/18044308?v=4' alt='xthursdayx' width='42px' /></a></td>
     <td align="center"><a href='https://github.com/Gaboris' title='Gaboris is awesome!'><img src='https://avatars2.githubusercontent.com/u/9462372?v=4' alt='Gaboris' width='42px' /></a></td>
     <td align="center"><a href='http://www.cu3ed.com/' title='incace is awesome!'><img src='https://avatars1.githubusercontent.com/u/61343?v=4' alt='incace' width='42px' /></a></td>
-  </tr>
-  <tr>
-    <td align="center"><a href='http://pztrn.name/' title='pztrn is awesome!'><img src='https://avatars1.githubusercontent.com/u/869402?v=4' alt='pztrn' width='42px' /></a></td>
+  <td align="center"><a href='http://pztrn.name/' title='pztrn is awesome!'><img src='https://avatars1.githubusercontent.com/u/869402?v=4' alt='pztrn' width='42px' /></a></td>
     <td align="center"><a href='http://www.patrickcurl.com' title='patrickcurl is awesome!'><img src='https://avatars1.githubusercontent.com/u/1470061?v=4' alt='patrickcurl' width='42px' /></a></td>
     <td align="center"><a href='https://github.com/Stanzilla' title='Stanzilla is awesome!'><img src='https://avatars3.githubusercontent.com/u/75278?v=4' alt='Stanzilla' width='42px' /></a></td>
     <td align="center"><a href='https://github.com/ammarmalhas' title='ammarmalhas is awesome!'><img src='https://avatars1.githubusercontent.com/u/57057209?v=4' alt='ammarmalhas' width='42px' /></a></td>
@@ -330,9 +327,7 @@ Thanks goes to these awesome people:
     <td align="center"><a href='https://crowdin.com/profile/J370' title='J370 is awesome!'><img src='https://crowdin-static.downloads.crowdin.com/avatar/14141203/small/7b12b5db419d8796450221c2eaaf6003.png' alt='J370' width='42px' /></a></td>
     <td align="center"><a href='https://crowdin.com/profile/keunes' title='keunes is awesome!'><img src='https://crowdin-static.downloads.crowdin.com/avatar/13018172/small/829115c606347b10218f34c637a2100c.png' alt='keunes' width='42px' /></a></td>
     <td align="center"><a href='https://crowdin.com/profile/leandrogehlen' title='leandrogehlen is awesome!'><img src='https://crowdin-static.downloads.crowdin.com/avatar/14099621/small/1d9503523839c310dbce0af3c226e894.jpeg' alt='leandrogehlen' width='42px' /></a></td>
-  </tr>
-  <tr>
-    <td align="center"><a href='https://crowdin.com/profile/Matthieu42' title='Matthieu42 is awesome!'><img src='https://www.gravatar.com/avatar/735217ccccf11ba97573deee517ddb19' alt='Matthieu42' width='42px' /></a></td>
+  <td align="center"><a href='https://crowdin.com/profile/Matthieu42' title='Matthieu42 is awesome!'><img src='https://www.gravatar.com/avatar/735217ccccf11ba97573deee517ddb19' alt='Matthieu42' width='42px' /></a></td>
     <td align="center"><a href='https://crowdin.com/profile/nicky18013' title='nicky18013 is awesome!'><img src='https://crowdin-static.downloads.crowdin.com/avatar/13468928/small/2b31e7ac19645d950a79b33ffd5721b8.png' alt='nicky18013' width='42px' /></a></td>
     <td align="center"><a href='https://crowdin.com/profile/Tatjana1998' title='Tatjana1998 is awesome!'><img src='https://www.gravatar.com/avatar/ade202a04fcbb2c177e4f1d9936af29e' alt='Tatjana1998' width='42px' /></a></td>
     <td align="center"><a href='https://crowdin.com/profile/seayko' title='seayko is awesome!'><img src='https://www.gravatar.com/avatar/65e2aef738ddf828f822d8463fd04918' alt='seayko' width='42px' /></a></td>
@@ -348,14 +343,11 @@ Thanks goes to these awesome people:
     <td align="center"><a href='https://github.com/mahadevans87' title='mahadevans87 is awesome!'><img src='https://avatars1.githubusercontent.com/u/1255523?v=4' alt='mahadevans87' width='42px' /></a></td>
     <td align="center"><a href='https://jakelee.co.uk' title='JakeSteam is awesome!'><img src='https://avatars2.githubusercontent.com/u/12380876?v=4' alt='JakeSteam' width='42px' /></a></td>
     <td align="center"><a href='https://github.com/sampathBlam' title='sampathBlam is awesome!'><img src='https://avatars1.githubusercontent.com/u/17728976?v=4' alt='sampathBlam' width='42px' /></a></td>
-  </tr>
-  <tr>
-    <td align="center"><a href='https://github.com/saruwman' title='saruwman is awesome!'><img src='https://avatars2.githubusercontent.com/u/41330038?v=4' alt='saruwman' width='42px' /></a></td>
+  <td align="center"><a href='https://github.com/saruwman' title='saruwman is awesome!'><img src='https://avatars2.githubusercontent.com/u/41330038?v=4' alt='saruwman' width='42px' /></a></td>
     <td align="center"><a href='https://github.com/dorukkarinca' title='dorukkarinca is awesome!'><img src='https://avatars0.githubusercontent.com/u/9303867?v=4' alt='dorukkarinca' width='42px' /></a></td>
     <td align="center"><a href='https://www.linkedin.com/in/gautamsi' title='gautamsi is awesome!'><img src='https://avatars2.githubusercontent.com/u/5769869?v=4' alt='gautamsi' width='42px' /></a></td>
     <td align="center"><a href='https://feikojoosten.com' title='FeikoJoosten is awesome!'><img src='https://avatars0.githubusercontent.com/u/10920052?v=4' alt='FeikoJoosten' width='42px' /></a></td>
-  </tr>
-</table>
+  </p>
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
