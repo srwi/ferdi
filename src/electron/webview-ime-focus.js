@@ -1,4 +1,4 @@
-const { remote } = require('electron')
+const { remote } = require('electron');
 const { releaseDocumentFocus } = require('./webview-ime-focus-helpers');
 
 function giveWebviewDocumentFocus(element) {
