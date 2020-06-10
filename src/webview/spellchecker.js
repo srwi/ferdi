@@ -1,7 +1,7 @@
 import { webFrame } from 'electron';
-import { SpellCheckHandler } from 'electron-spellchecker';
+// import { SpellCheckHandler } from 'electron-spellchecker';
 import { SPELLCHECKER_LOCALES } from '../i18n/languages';
-import setupContextMenu from './contextMenu';
+// import setupContextMenu from './contextMenu';
 
 const debug = require('debug')('Franz:spellchecker');
 
@@ -38,16 +38,18 @@ export async function switchDict(locale) {
 
 export default async function initialize(languageCode = 'en-us') {
   try {
-    handler = new SpellCheckHandler();
-    setTimeout(() => handler.attachToInput(), 1000);
+    // TODO: Use build-in spellchecker
+    // handler = new SpellCheckHandler();
+    // setTimeout(() => handler.attachToInput(), 1000);
     const locale = languageCode.toLowerCase();
 
     debug('Init spellchecker');
 
     switchDict(locale);
-    setupContextMenu(handler);
+    // setupContextMenu(handler);
 
-    return handler;
+    // return handler;
+    return false;
   } catch (err) {
     console.error(err);
     return false;
