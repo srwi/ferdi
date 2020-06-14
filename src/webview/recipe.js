@@ -176,7 +176,7 @@ class RecipeController {
 
     if (this.settings.app.enableSpellchecking) {
       debug('Setting spellchecker language to', this.spellcheckerLanguage);
-      let { spellcheckerLanguage } = this;
+      const { spellcheckerLanguage } = this;
       if (spellcheckerLanguage.includes('automatic')) {
         this.automaticLanguageDetection();
         debug('Found `automatic` locale, falling back to user locale until detected', this.settings.app.locale);
@@ -331,7 +331,7 @@ class RecipeController {
         if (spellcheckerLocale) {
           switchDict([
             ...this.spellcheckerLanguage,
-            spellcheckerLocale
+            spellcheckerLocale,
           ]);
         }
       }

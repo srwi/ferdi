@@ -518,7 +518,7 @@ export default @observer class EditSettingsForm extends Component {
                     <Toggle
                       field={form.$('enableSpellchecking')}
                     />
-                    {form.$('enableSpellchecking').value && (
+                    {form.$('enableSpellchecking').value && !isMac && (
                       <Select field={form.$('spellcheckerLanguage')} multiple />
                     )}
                   </Fragment>
