@@ -247,7 +247,7 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
         showMessageBadgeWhenMuted: settingsData.showMessageBadgeWhenMuted,
         showDragArea: settingsData.showDragArea,
         enableSpellchecking: settingsData.enableSpellchecking,
-        spellcheckerLanguage: settingsData.spellcheckerLanguage,
+        spellcheckerLanguage: JSON.stringify(settingsData.spellcheckerLanguage),
         beta: settingsData.beta, // we need this info in the main process as well
         automaticUpdates: settingsData.automaticUpdates, // we need this info in the main process as well
         locale: settingsData.locale, // we need this info in the main process as well
@@ -463,7 +463,7 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
         },
         spellcheckerLanguage: {
           label: intl.formatMessage(globalMessages.spellcheckerLanguage),
-          value: typeof settings.all.app.spellcheckerLanguage === 'string' ? [settings.all.app.spellcheckerLanguage] : settings.all.app.spellcheckerLanguage,
+          value: settings.all.app.spellcheckerLanguage,
           options: spellcheckingLanguages,
           default: DEFAULT_APP_SETTINGS.spellcheckerLanguage,
         },

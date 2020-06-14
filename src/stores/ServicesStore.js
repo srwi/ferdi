@@ -618,7 +618,10 @@ export default class ServicesStore extends Store {
     const service = this.one(serviceId);
 
     if (service.webview) {
-      service.webview.send(channel, args);
+      // Make sure the args are clean, otherwise ElectronJS can't transmit them
+      const cleanArgs = JSON.parse(JSON.stringify(args));
+
+      service.webview.send(channel, cleanArgs);
     }
   }
 

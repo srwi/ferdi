@@ -26,15 +26,13 @@ export async function switchDict(locales) {
   }
 }
 
-export default async function initialize(languageCode = 'en-us') {
+export default async function initialize(languages = ['en-us']) {
   try {
-    const locale = languageCode.toLowerCase();
-
     debug('Init spellchecker');
 
     switchDict([
       navigator.language,
-      locale,
+      ...languages,
     ]);
     setupContextMenu();
 

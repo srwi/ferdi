@@ -519,7 +519,7 @@ export default @observer class EditSettingsForm extends Component {
                       field={form.$('enableSpellchecking')}
                     />
                     {form.$('enableSpellchecking').value && (
-                    <Select field={form.$('spellcheckerLanguage')} />
+                      <Select field={form.$('spellcheckerLanguage')} multiple />
                     )}
                   </Fragment>
                 </PremiumFeatureContainer>
