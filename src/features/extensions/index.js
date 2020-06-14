@@ -16,8 +16,8 @@ export default async function initialize() {
   const extensionsPath = path.join(remote.app.getPath('userData'), 'extensions');
   await fs.ensureDir(extensionsPath);
 
-  let activeExtensions = [];
-  let webviews = [];
+  const activeExtensions = [];
+  const webviews = [];
 
   const loadExtensionInWebView = async (extension, webview) => {
     const webContents = remote.webContents.fromId(webview.getWebContentsId());
@@ -32,7 +32,7 @@ export default async function initialize() {
       return;
     }
     activeExtensions.push(extension);
-    
+
     // Load extension globally
     if (loadGlobally) {
       await remote.session.defaultSession.loadExtension(extPath);
@@ -45,29 +45,25 @@ export default async function initialize() {
   };
 
   const loadExtensions = (extensions, loadGlobally = true) => {
-    for(const extension of extensions) {
+    for (const extension of extensions) {
       loadExtension(extension, loadGlobally);
     }
   };
 
-  console.log('Loading extensions');
-
   const useWebview = async (webview) => {
-    console.log('Inject extension to webview');
-
     // Don't load already loaded webviews
     if (webviews.includes(webview)) {
       return;
     }
-    
+
     webviews.push(webview);
 
     // Load all currently loaded exntesions into the webview
-    for(const extension of activeExtensions) {
+    for (const extension of activeExtensions) {
       const extPath = path.join(extensionsPath, extension);
       loadExtensionInWebView(extPath, webview);
     }
-  }
+  };
 
   // Load default extensions
   loadExtensions(['extension']);
