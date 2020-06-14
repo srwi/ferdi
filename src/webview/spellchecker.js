@@ -1,35 +1,25 @@
 import { webFrame } from 'electron';
-// import { SpellCheckHandler } from 'electron-spellchecker';
 import { SPELLCHECKER_LOCALES } from '../i18n/languages';
-// import setupContextMenu from './contextMenu';
+import setupContextMenu from './contextMenu';
 
 const debug = require('debug')('Franz:spellchecker');
 
-let handler;
-let currentDict;
 let _isEnabled = false;
 
-export async function switchDict(locale) {
+export async function switchDict(locales) {
+  const { platform } = process;
+  if (platform === 'darwin') {
+    // MacOS uses the build-in languages which cannot be changed
+    return;
+  }
+
   try {
-    debug('Trying to load dictionary', locale);
+    debug('Trying to load dictionary', locales);
 
-    if (!handler) {
-      console.warn('SpellcheckHandler not initialized');
+    webFrame.session.setSpellCheckerLanguages([...locales, 'en-US']);
 
-      return;
-    }
+    debug('Switched dictionary to', locales);
 
-    if (locale === currentDict) {
-      console.warn('Dictionary is already used', currentDict);
-
-      return;
-    }
-
-    handler.switchLanguage(locale);
-
-    debug('Switched dictionary to', locale);
-
-    currentDict = locale;
     _isEnabled = true;
   } catch (err) {
     console.error(err);
@@ -38,18 +28,17 @@ export async function switchDict(locale) {
 
 export default async function initialize(languageCode = 'en-us') {
   try {
-    // TODO: Use build-in spellchecker
-    // handler = new SpellCheckHandler();
-    // setTimeout(() => handler.attachToInput(), 1000);
     const locale = languageCode.toLowerCase();
 
     debug('Init spellchecker');
 
-    switchDict(locale);
-    // setupContextMenu(handler);
+    switchDict([
+      navigator.language,
+      locale,
+    ]);
+    setupContextMenu();
 
-    // return handler;
-    return false;
+    return true;
   } catch (err) {
     console.error(err);
     return false;
@@ -62,10 +51,7 @@ export function isEnabled() {
 
 export function disable() {
   if (isEnabled()) {
-    handler.unsubscribe();
-    webFrame.setSpellCheckProvider(currentDict, { spellCheck: () => true });
-    _isEnabled = false;
-    currentDict = null;
+    // TODO: How to disable build-in spellchecker?
   }
 }
 

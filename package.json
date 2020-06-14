@@ -78,7 +78,6 @@
     "electron-process-manager": "git+https://git@github.com/dizer/electron-process-manager.git",
     "electron-process-reporter": "git+https://git@github.com/dizer/electron-process-reporter.git",
     "electron-react-titlebar": "0.8.2",
-    "electron-spellchecker": "2.2.1",
     "electron-updater": "4.2.5",
     "electron-util": "0.14.0",
     "electron-window-state": "5.0.3",

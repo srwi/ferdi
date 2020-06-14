@@ -463,7 +463,7 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
         },
         spellcheckerLanguage: {
           label: intl.formatMessage(globalMessages.spellcheckerLanguage),
-          value: settings.all.app.spellcheckerLanguage,
+          value: typeof settings.all.app.spellcheckerLanguage === 'string' ? [settings.all.app.spellcheckerLanguage] : settings.all.app.spellcheckerLanguage,
           options: spellcheckingLanguages,
           default: DEFAULT_APP_SETTINGS.spellcheckerLanguage,
         },
