@@ -2184,6 +2184,146 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "!!!Service is disabled",
+        "end": {
+          "column": 3,
+          "line": 12
+        },
+        "file": "src/components/settings/extensions/ExtensionItem.js",
+        "id": "settings.services.tooltip.isDisabled",
+        "start": {
+          "column": 21,
+          "line": 9
+        }
+      },
+      {
+        "defaultMessage": "!!!Notifications are disabled",
+        "end": {
+          "column": 3,
+          "line": 16
+        },
+        "file": "src/components/settings/extensions/ExtensionItem.js",
+        "id": "settings.services.tooltip.notificationsDisabled",
+        "start": {
+          "column": 32,
+          "line": 13
+        }
+      },
+      {
+        "defaultMessage": "!!!All sounds are muted",
+        "end": {
+          "column": 3,
+          "line": 20
+        },
+        "file": "src/components/settings/extensions/ExtensionItem.js",
+        "id": "settings.services.tooltip.isMuted",
+        "start": {
+          "column": 18,
+          "line": 17
+        }
+      }
+    ],
+    "path": "src/components/settings/extensions/ExtensionItem.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "!!!Your extensions",
+        "end": {
+          "column": 3,
+          "line": 16
+        },
+        "file": "src/components/settings/extensions/ExtensionsDashboard.js",
+        "id": "settings.extensions.headline",
+        "start": {
+          "column": 12,
+          "line": 13
+        }
+      },
+      {
+        "defaultMessage": "!!!Search extensions",
+        "end": {
+          "column": 3,
+          "line": 20
+        },
+        "file": "src/components/settings/extensions/ExtensionsDashboard.js",
+        "id": "settings.searchExtension",
+        "start": {
+          "column": 19,
+          "line": 17
+        }
+      },
+      {
+        "defaultMessage": "!!!You haven't added any extensions yet.",
+        "end": {
+          "column": 3,
+          "line": 24
+        },
+        "file": "src/components/settings/extensions/ExtensionsDashboard.js",
+        "id": "settings.extensions.noExtensionsAdded",
+        "start": {
+          "column": 21,
+          "line": 21
+        }
+      },
+      {
+        "defaultMessage": "!!!Sorry, but no extension matched your search term.",
+        "end": {
+          "column": 3,
+          "line": 28
+        },
+        "file": "src/components/settings/extensions/ExtensionsDashboard.js",
+        "id": "settings.recipes.nothingFound",
+        "start": {
+          "column": 18,
+          "line": 25
+        }
+      },
+      {
+        "defaultMessage": "!!!Discover extensions",
+        "end": {
+          "column": 3,
+          "line": 32
+        },
+        "file": "src/components/settings/extensions/ExtensionsDashboard.js",
+        "id": "settings.extensions.discoverExtensions",
+        "start": {
+          "column": 22,
+          "line": 29
+        }
+      },
+      {
+        "defaultMessage": "!!!Your changes have been saved",
+        "end": {
+          "column": 3,
+          "line": 36
+        },
+        "file": "src/components/settings/extensions/ExtensionsDashboard.js",
+        "id": "settings.extensions.updatedInfo",
+        "start": {
+          "column": 15,
+          "line": 33
+        }
+      },
+      {
+        "defaultMessage": "!!!Extension has been deleted",
+        "end": {
+          "column": 3,
+          "line": 40
+        },
+        "file": "src/components/settings/extensions/ExtensionsDashboard.js",
+        "id": "settings.extensions.deletedInfo",
+        "start": {
+          "column": 15,
+          "line": 37
+        }
+      }
+    ],
+    "path": "src/components/settings/extensions/ExtensionsDashboard.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "!!!Available services",
         "end": {
           "column": 3,

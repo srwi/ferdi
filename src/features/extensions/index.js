@@ -16,9 +16,38 @@ export default async function initialize() {
   const extensionsPath = path.join(remote.app.getPath('userData'), 'extensions');
   await fs.ensureDir(extensionsPath);
 
+  // Current status information
   const activeExtensions = [];
+  const extensionInfo = {};
   const webviews = [];
 
+  // Helpers for getting information about extensions
+  const getActiveExtensions = () => activeExtensions;
+  const getExtensionInfo = key => (extensionInfo[key] || {});
+  const getExtensionIcon = (key) => {
+    const info = getExtensionInfo(key);
+    const ferdiIcon = 'https://raw.githubusercontent.com/getferdi/ferdi/develop/branding/logo.png';
+
+    if (!info.icons) {
+      return ferdiIcon;
+    }
+
+    // Find largest icon
+    let largestSize = -1;
+    for (const size in info.icons) {
+      if (size > largestSize) {
+        largestSize = size;
+      }
+    }
+
+    if (largestSize === -1) {
+      return ferdiIcon;
+    }
+
+    return path.join(extensionsPath, key, info.icons[largestSize]);
+  };
+
+  // Functions for loading extensions
   const loadExtensionInWebView = async (extension, webview) => {
     const webContents = remote.webContents.fromId(webview.getWebContentsId());
     await webContents.session.loadExtension(extension);
@@ -42,6 +71,10 @@ export default async function initialize() {
     for (const webview of webviews) {
       loadExtensionInWebView(extPath, webview);
     }
+
+    // Load extension information
+    const extInfo = await fs.readJSON(path.join(extPath, 'manifest.json'));
+    extensionInfo[extension] = extInfo;
   };
 
   const loadExtensions = (extensions, loadGlobally = true) => {
@@ -65,13 +98,27 @@ export default async function initialize() {
     }
   };
 
-  // Load default extensions
-  loadExtensions(['extension']);
+  // Load all installed extensions asynchronously
+  (async () => {
+    const directories = (await fs.readdir(extensionsPath, { withFileTypes: true }))
+      // Only use directories
+      .filter(file => file.isDirectory())
+      // Only get directory names
+      .map(directory => directory.name);
+
+    debug(`Found and loading ${directories.length} extensions`);
+
+    loadExtensions(directories);
+  })();
 
   window.ferdi.features.extensions = {
     state,
     useWebview,
     loadExtension,
     loadExtensions,
+    getActiveExtensions,
+    getExtensionInfo,
+    getExtensionIcon,
+    extensionsPath,
   };
 }
