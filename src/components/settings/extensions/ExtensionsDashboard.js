@@ -76,6 +76,10 @@ export default @observer class ExtensionsDashboard extends Component {
       return name.toLowerCase().includes(query.toLowerCase());
     });
 
+    const goTo = (path) => {
+      window.ferdi.stores.router.history.push(path);
+    };
+
     return (
       <div className="settings__main">
         <div className="settings__header">
@@ -141,7 +145,7 @@ export default @observer class ExtensionsDashboard extends Component {
                 <ExtensionItem
                   key={extension}
                   extension={extension}
-                  goToServiceForm={() => {}}
+                  goToServiceForm={() => goTo(`/settings/extensions/${extension}`)}
                 />
               ))}
             </tbody>

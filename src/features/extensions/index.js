@@ -1,4 +1,4 @@
-import { remote } from 'electron';
+import { shell, remote } from 'electron';
 import path from 'path';
 import fs from 'fs-extra';
 import { observable } from 'mobx';
@@ -26,10 +26,10 @@ export default async function initialize() {
   const getExtensionInfo = key => (extensionInfo[key] || {});
   const getExtensionIcon = (key) => {
     const info = getExtensionInfo(key);
-    const ferdiIcon = 'https://raw.githubusercontent.com/getferdi/ferdi/develop/branding/logo.png';
+    const noIcon = './assets/images/no-extension-icon.png';
 
     if (!info.icons) {
-      return ferdiIcon;
+      return noIcon;
     }
 
     // Find largest icon
@@ -41,10 +41,22 @@ export default async function initialize() {
     }
 
     if (largestSize === -1) {
-      return ferdiIcon;
+      return noIcon;
     }
 
     return path.join(extensionsPath, key, info.icons[largestSize]);
+  };
+  const openExtensionFolder = (key) => {
+    const filePath = path.join(extensionsPath, key);
+    shell.showItemInFolder(filePath);
+  };
+  const deleteExtension = async (key, openSettings = true) => {
+    const filePath = path.join(extensionsPath, key);
+    await fs.remove(filePath);
+
+    if (openSettings) {
+      window.ferdi.stores.router.history.push('/settings/extensions');
+    }
   };
 
   // Functions for loading extensions
@@ -119,6 +131,8 @@ export default async function initialize() {
     getActiveExtensions,
     getExtensionInfo,
     getExtensionIcon,
+    openExtensionFolder,
+    deleteExtension,
     extensionsPath,
   };
 }

@@ -343,6 +343,8 @@
   "settings.app.updateStatusAvailable": "Update available, downloading...",
   "settings.app.updateStatusSearching": "Is searching for update",
   "settings.app.updateStatusUpToDate": "You are using the latest version of Ferdi",
+  "settings.extension.form.deleteButton": "Delete Extension",
+  "settings.extension.form.openFolder": "Open extension folder",
   "settings.extensions.deletedInfo": "Extension has been deleted",
   "settings.extensions.discoverExtensions": "Discover extensions",
   "settings.extensions.headline": "Your extensions",

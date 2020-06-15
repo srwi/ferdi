@@ -2184,6 +2184,37 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "!!!Delete Extension",
+        "end": {
+          "column": 3,
+          "line": 14
+        },
+        "file": "src/components/settings/extensions/EditExtensionForm.js",
+        "id": "settings.extension.form.deleteButton",
+        "start": {
+          "column": 19,
+          "line": 11
+        }
+      },
+      {
+        "defaultMessage": "!!!Open extension folder",
+        "end": {
+          "column": 3,
+          "line": 18
+        },
+        "file": "src/components/settings/extensions/EditExtensionForm.js",
+        "id": "settings.extension.form.openFolder",
+        "start": {
+          "column": 14,
+          "line": 15
+        }
+      }
+    ],
+    "path": "src/components/settings/extensions/EditExtensionForm.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "!!!Service is disabled",
         "end": {
           "column": 3,
@@ -4474,6 +4505,258 @@
       }
     ],
     "path": "src/components/util/ErrorBoundary/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "!!!Name",
+        "end": {
+          "column": 3,
+          "line": 16
+        },
+        "file": "src/containers/settings/EditExtensionScreen.js",
+        "id": "settings.service.form.name",
+        "start": {
+          "column": 8,
+          "line": 13
+        }
+      },
+      {
+        "defaultMessage": "!!!Enable service",
+        "end": {
+          "column": 3,
+          "line": 20
+        },
+        "file": "src/containers/settings/EditExtensionScreen.js",
+        "id": "settings.service.form.enableService",
+        "start": {
+          "column": 17,
+          "line": 17
+        }
+      },
+      {
+        "defaultMessage": "!!!Disable hibernation",
+        "end": {
+          "column": 3,
+          "line": 24
+        },
+        "file": "src/containers/settings/EditExtensionScreen.js",
+        "id": "settings.service.form.disableHibernation",
+        "start": {
+          "column": 22,
+          "line": 21
+        }
+      },
+      {
+        "defaultMessage": "!!!Enable Notifications",
+        "end": {
+          "column": 3,
+          "line": 28
+        },
+        "file": "src/containers/settings/EditExtensionScreen.js",
+        "id": "settings.service.form.enableNotification",
+        "start": {
+          "column": 22,
+          "line": 25
+        }
+      },
+      {
+        "defaultMessage": "!!!Show unread message badges",
+        "end": {
+          "column": 3,
+          "line": 32
+        },
+        "file": "src/containers/settings/EditExtensionScreen.js",
+        "id": "settings.service.form.enableBadge",
+        "start": {
+          "column": 15,
+          "line": 29
+        }
+      },
+      {
+        "defaultMessage": "!!!Enable audio",
+        "end": {
+          "column": 3,
+          "line": 36
+        },
+        "file": "src/containers/settings/EditExtensionScreen.js",
+        "id": "settings.service.form.enableAudio",
+        "start": {
+          "column": 15,
+          "line": 33
+        }
+      },
+      {
+        "defaultMessage": "!!!Team",
+        "end": {
+          "column": 3,
+          "line": 40
+        },
+        "file": "src/containers/settings/EditExtensionScreen.js",
+        "id": "settings.service.form.team",
+        "start": {
+          "column": 8,
+          "line": 37
+        }
+      },
+      {
+        "defaultMessage": "!!!Service URL",
+        "end": {
+          "column": 3,
+          "line": 44
+        },
+        "file": "src/containers/settings/EditExtensionScreen.js",
+        "id": "settings.service.form.customUrl",
+        "start": {
+          "column": 13,
+          "line": 41
+        }
+      },
+      {
+        "defaultMessage": "!!!Show message badge for all new messages",
+        "end": {
+          "column": 3,
+          "line": 48
+        },
+        "file": "src/containers/settings/EditExtensionScreen.js",
+        "id": "settings.service.form.indirectMessages",
+        "start": {
+          "column": 20,
+          "line": 45
+        }
+      },
+      {
+        "defaultMessage": "!!!Custom icon",
+        "end": {
+          "column": 3,
+          "line": 52
+        },
+        "file": "src/containers/settings/EditExtensionScreen.js",
+        "id": "settings.service.form.icon",
+        "start": {
+          "column": 8,
+          "line": 49
+        }
+      },
+      {
+        "defaultMessage": "!!!Enable Dark Mode",
+        "end": {
+          "column": 3,
+          "line": 56
+        },
+        "file": "src/containers/settings/EditExtensionScreen.js",
+        "id": "settings.service.form.enableDarkMode",
+        "start": {
+          "column": 18,
+          "line": 53
+        }
+      },
+      {
+        "defaultMessage": "!!!Dark Reader Brightness",
+        "end": {
+          "column": 3,
+          "line": 60
+        },
+        "file": "src/containers/settings/EditExtensionScreen.js",
+        "id": "settings.service.form.darkReaderBrightness",
+        "start": {
+          "column": 24,
+          "line": 57
+        }
+      },
+      {
+        "defaultMessage": "!!!Dark Reader Contrast",
+        "end": {
+          "column": 3,
+          "line": 64
+        },
+        "file": "src/containers/settings/EditExtensionScreen.js",
+        "id": "settings.service.form.darkReaderContrast",
+        "start": {
+          "column": 22,
+          "line": 61
+        }
+      },
+      {
+        "defaultMessage": "!!!Dark Reader Sepia",
+        "end": {
+          "column": 3,
+          "line": 68
+        },
+        "file": "src/containers/settings/EditExtensionScreen.js",
+        "id": "settings.service.form.darkReaderSepia",
+        "start": {
+          "column": 19,
+          "line": 65
+        }
+      },
+      {
+        "defaultMessage": "!!!Use Proxy",
+        "end": {
+          "column": 3,
+          "line": 72
+        },
+        "file": "src/containers/settings/EditExtensionScreen.js",
+        "id": "settings.service.form.proxy.isEnabled",
+        "start": {
+          "column": 15,
+          "line": 69
+        }
+      },
+      {
+        "defaultMessage": "!!!Proxy Host/IP",
+        "end": {
+          "column": 3,
+          "line": 76
+        },
+        "file": "src/containers/settings/EditExtensionScreen.js",
+        "id": "settings.service.form.proxy.host",
+        "start": {
+          "column": 13,
+          "line": 73
+        }
+      },
+      {
+        "defaultMessage": "!!!Port",
+        "end": {
+          "column": 3,
+          "line": 80
+        },
+        "file": "src/containers/settings/EditExtensionScreen.js",
+        "id": "settings.service.form.proxy.port",
+        "start": {
+          "column": 13,
+          "line": 77
+        }
+      },
+      {
+        "defaultMessage": "!!!User",
+        "end": {
+          "column": 3,
+          "line": 84
+        },
+        "file": "src/containers/settings/EditExtensionScreen.js",
+        "id": "settings.service.form.proxy.user",
+        "start": {
+          "column": 13,
+          "line": 81
+        }
+      },
+      {
+        "defaultMessage": "!!!Password",
+        "end": {
+          "column": 3,
+          "line": 88
+        },
+        "file": "src/containers/settings/EditExtensionScreen.js",
+        "id": "settings.service.form.proxy.password",
+        "start": {
+          "column": 17,
+          "line": 85
+        }
+      }
+    ],
+    "path": "src/containers/settings/EditExtensionScreen.json"
   },
   {
     "descriptors": [

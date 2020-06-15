@@ -31,6 +31,7 @@ import WorkspacesScreen from './features/workspaces/containers/WorkspacesScreen'
 import EditWorkspaceScreen from './features/workspaces/containers/EditWorkspaceScreen';
 import { WORKSPACES_ROUTES } from './features/workspaces';
 import ExtensionsScreen from './containers/settings/ExtensionsScreen';
+import EditExtensionScreen from './containers/settings/EditExtensionScreen';
 import AnnouncementScreen from './features/announcements/components/AnnouncementScreen';
 import { ANNOUNCEMENTS_ROUTES } from './features/announcements';
 
@@ -64,6 +65,7 @@ export default @inject('stores', 'actions') @observer class Routes extends Compo
             <Route path={WORKSPACES_ROUTES.ROOT} component={WorkspacesScreen} />
             <Route path={WORKSPACES_ROUTES.EDIT} component={EditWorkspaceScreen} />
             <Route path="/settings/extensions" component={ExtensionsScreen} />
+            <Route path="/settings/extensions/:extension" component={EditExtensionScreen} />
             <Route path="/settings/user" component={AccountScreen} />
             <Route path="/settings/user/edit" component={EditUserScreen} />
             <Route path="/settings/team" component={TeamScreen} />
