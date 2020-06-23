@@ -8,6 +8,7 @@ import {
 import AppLayoutContainer from './containers/layout/AppLayoutContainer';
 import SettingsWindow from './containers/settings/SettingsWindow';
 import RecipesScreen from './containers/settings/RecipesScreen';
+import ExtensionStoreScreen from './containers/settings/ExtensionStoreScreen';
 import ServicesScreen from './containers/settings/ServicesScreen';
 import EditServiceScreen from './containers/settings/EditServiceScreen';
 import AccountScreen from './containers/settings/AccountScreen';
@@ -66,6 +67,9 @@ export default @inject('stores', 'actions') @observer class Routes extends Compo
             <Route path={WORKSPACES_ROUTES.EDIT} component={EditWorkspaceScreen} />
             <Route path="/settings/extensions" component={ExtensionsScreen} />
             <Route path="/settings/extensions/:extension" component={EditExtensionScreen} />
+            <Route path="/settings/store-extensions" component={ExtensionStoreScreen} />
+            <Route path="/settings/store-extensions/:filter" component={ExtensionStoreScreen} />
+            <Route path="/settings/store-extensions/:filter/:extension" component={ExtensionStoreScreen} />
             <Route path="/settings/user" component={AccountScreen} />
             <Route path="/settings/user/edit" component={EditUserScreen} />
             <Route path="/settings/team" component={TeamScreen} />

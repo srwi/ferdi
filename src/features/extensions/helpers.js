@@ -46,6 +46,12 @@ export function permissionText(permission) {
       return 'Access all web requests';
     case 'webRequestBlocking':
       return 'Block web requests';
+    case '<all_urls>':
+      return 'Read and change your data all pages';
+    case 'privacy':
+      return 'Change your privacy-related settings';
+    case 'webNavigation':
+      return 'Get alerted when you change your current page';
     default:
       break;
   }

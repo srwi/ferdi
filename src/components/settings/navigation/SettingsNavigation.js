@@ -161,6 +161,14 @@ export default @inject('stores', 'actions') @observer class SettingsNavigation e
           <span className="badge">{extensionsCount}</span>
         </Link>
         <Link
+          to="/settings/store-extensions"
+          className="settings-navigation__link"
+          activeClassName="is-active"
+          disabled={!isLoggedIn}
+        >
+          Extension-Store
+        </Link>
+        <Link
           to="/settings/user"
           className="settings-navigation__link"
           activeClassName="is-active"
