@@ -110,7 +110,7 @@ export default @inject('stores', 'actions') @observer class ExtensionsStoreScree
       );
     }
 
-    const extensionDirectory = path.join(app.getPath('userData'), 'extensions', 'dev');
+    const extensionDirectory = path.join(app.getPath('userData'), 'extensions');
 
     return (
       <ErrorBoundary>
@@ -127,7 +127,6 @@ export default @inject('stores', 'actions') @observer class ExtensionsStoreScree
             await fs.ensureDir(extensionDirectory);
             shell.openItem(extensionDirectory);
           }}
-          installExtension={() => {}}
         />
       </ErrorBoundary>
     );

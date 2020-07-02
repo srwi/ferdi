@@ -110,7 +110,6 @@ export default @injectSheet(styles) @observer class ExtensionStoreDashboard exte
     extensionStatus: MobxPropTypes.arrayOrObservableArray.isRequired,
     searchNeedle: PropTypes.string,
     extensionFilter: PropTypes.string,
-    detailExtension: PropTypes.string,
     extensionDirectory: PropTypes.string.isRequired,
     openExtensionDirectory: PropTypes.func.isRequired,
     openDevDocs: PropTypes.func.isRequired,
@@ -138,7 +137,6 @@ export default @injectSheet(styles) @observer class ExtensionStoreDashboard exte
       extensionDirectory,
       openExtensionDirectory,
       openDevDocs,
-      detailExtension,
       classes,
     } = this.props;
     const { intl } = this.context;
@@ -166,110 +164,104 @@ export default @injectSheet(styles) @observer class ExtensionStoreDashboard exte
             </Appear>
           )}
 
-          {extensionFilter === 'detail' ? (
-            <DetailScreen extension={detailExtension} />
-          ) : (
-            <>
-              <SearchInput
-                placeholder={intl.formatMessage(messages.searchExtension)}
-                onChange={e => searchExtensions(e)}
-                onReset={() => resetSearch()}
-                autoFocus
-                throttle
-              />
-              <div className="recipes__navigation">
-                <Link
-                  to="/settings/store-extensions"
-                  className="badge"
-                  activeClassName={`${!searchNeedle ? 'badge--primary' : ''}`}
-                  onClick={() => resetSearch()}
-                >
-                  {intl.formatMessage(messages.mostPopularExtensions)}
-                </Link>
-                <Link
-                  to="/settings/store-extensions/all"
-                  className="badge"
-                  activeClassName={`${!searchNeedle ? 'badge--primary' : ''}`}
-                  onClick={() => resetSearch()}
-                >
-                  {intl.formatMessage(messages.allExtensions)}
-                </Link>
-                <Link
-                  to="/settings/store-extensions/dev"
-                  className="badge"
-                  activeClassName={`${!searchNeedle ? 'badge--primary' : ''}`}
-                  onClick={() => resetSearch()}
-                >
-                  {intl.formatMessage(messages.customExtensions)}
-                </Link>
-              </div>
+          <SearchInput
+            placeholder={intl.formatMessage(messages.searchExtension)}
+            onChange={e => searchExtensions(e)}
+            onReset={() => resetSearch()}
+            autoFocus
+            throttle
+          />
+          <div className="recipes__navigation">
+            <Link
+              to="/settings/store-extensions"
+              className="badge"
+              activeClassName={`${!searchNeedle ? 'badge--primary' : ''}`}
+              onClick={() => resetSearch()}
+            >
+              {intl.formatMessage(messages.mostPopularExtensions)}
+            </Link>
+            <Link
+              to="/settings/store-extensions/all"
+              className="badge"
+              activeClassName={`${!searchNeedle ? 'badge--primary' : ''}`}
+              onClick={() => resetSearch()}
+            >
+              {intl.formatMessage(messages.allExtensions)}
+            </Link>
+            <Link
+              to="/settings/store-extensions/dev"
+              className="badge"
+              activeClassName={`${!searchNeedle ? 'badge--primary' : ''}`}
+              onClick={() => resetSearch()}
+            >
+              {intl.formatMessage(messages.customExtensions)}
+            </Link>
+          </div>
 
-              {extensionFilter === 'dev' && (
-                <>
-                  <H2>
-                    {intl.formatMessage(messages.headlineCustomExtensions)}
-                  </H2>
-                  <div className={classes.devExtensionIntroContainer}>
-                    <p>
-                      {intl.formatMessage(messages.customExtensionIntro)}
-                    </p>
-                    <Input
-                      value={extensionDirectory}
-                      className={classes.path}
-                      showLabel={false}
-                    />
-                    <div className={classes.actionContainer}>
-                      <Button
-                        onClick={openExtensionDirectory}
-                        buttonType="secondary"
-                        label={intl.formatMessage(messages.openFolder)}
-                      />
-                      <Button
-                        onClick={openDevDocs}
-                        buttonType="secondary"
-                        label={intl.formatMessage(messages.openDevDocs)}
-                      />
-                    </div>
-                  </div>
-                </>
-              )}
-              <PremiumFeatureContainer
-                condition={(extensionFilter === 'dev' && communityExtensions.length > 0)}
-              >
-                {extensionFilter === 'dev' && communityExtensions.length > 0 && (
-                  <H3>{intl.formatMessage(messages.headlineCommunityExtensions)}</H3>
-                )}
-                <div className="recipes__list">
-                  {extensions.length === 0 && extensionFilter !== 'dev' && (
-                    <p className="align-middle settings__empty-state">
-                      <span className="emoji">
-                        <img src="./assets/images/emoji/dontknow.png" alt="" />
-                      </span>
-                      {intl.formatMessage(messages.nothingFound)}
-                    </p>
-                  )}
-                  {communityExtensions.map(extension => (
-                    <ExtensionItem
-                      key={extension.id}
-                      extension={extension}
-                    />
-                  ))}
+          {extensionFilter === 'dev' && (
+            <>
+              <H2>
+                {intl.formatMessage(messages.headlineCustomExtensions)}
+              </H2>
+              <div className={classes.devExtensionIntroContainer}>
+                <p>
+                  {intl.formatMessage(messages.customExtensionIntro)}
+                </p>
+                <Input
+                  value={extensionDirectory}
+                  className={classes.path}
+                  showLabel={false}
+                />
+                <div className={classes.actionContainer}>
+                  <Button
+                    onClick={openExtensionDirectory}
+                    buttonType="secondary"
+                    label={intl.formatMessage(messages.openFolder)}
+                  />
+                  <Button
+                    onClick={openDevDocs}
+                    buttonType="secondary"
+                    label={intl.formatMessage(messages.openDevDocs)}
+                  />
                 </div>
-              </PremiumFeatureContainer>
-              {extensionFilter === 'dev' && devExtensions.length > 0 && (
-                <div className={classes.devExtensionList}>
-                  <H3>{intl.formatMessage(messages.headlineDevExtensions)}</H3>
-                  <div className="recipes__list">
-                    {devExtensions.map(extension => (
-                      <ExtensionItem
-                        key={extension.id}
-                        extension={extension}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
+              </div>
             </>
+          )}
+          <PremiumFeatureContainer
+            condition={(extensionFilter === 'dev' && communityExtensions.length > 0)}
+          >
+            {extensionFilter === 'dev' && communityExtensions.length > 0 && (
+              <H3>{intl.formatMessage(messages.headlineCommunityExtensions)}</H3>
+            )}
+            <div className="recipes__list">
+              {extensions.length === 0 && extensionFilter !== 'dev' && (
+                <p className="align-middle settings__empty-state">
+                  <span className="emoji">
+                    <img src="./assets/images/emoji/dontknow.png" alt="" />
+                  </span>
+                  {intl.formatMessage(messages.nothingFound)}
+                </p>
+              )}
+              {communityExtensions.map(extension => (
+                <ExtensionItem
+                  key={extension.id}
+                  extension={extension}
+                />
+              ))}
+            </div>
+          </PremiumFeatureContainer>
+          {extensionFilter === 'dev' && devExtensions.length > 0 && (
+            <div className={classes.devExtensionList}>
+              <H3>{intl.formatMessage(messages.headlineDevExtensions)}</H3>
+              <div className="recipes__list">
+                {devExtensions.map(extension => (
+                  <ExtensionItem
+                    key={extension.id}
+                    extension={extension}
+                  />
+                ))}
+              </div>
+            </div>
           )}
 
         </div>

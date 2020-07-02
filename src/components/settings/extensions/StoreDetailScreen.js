@@ -1,111 +1,176 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
-import webstore from 'chrome-webstore';
+import { defineMessages, intlShape } from 'react-intl';
 
 import { permissionText } from '../../../features/extensions/helpers';
 
-export default @observer class ExtensionStoreDetail extends Component {
+import Loader from '../../ui/Loader';
+import Button from '../../ui/Button';
+import Infobox from '../../ui/Infobox';
+
+const messages = defineMessages({
+  headline: {
+    id: 'settings.extensions.store.headline',
+    defaultMessage: '!!!Available Extensions',
+  },
+  installExtension: {
+    id: 'settings.extensions.store.installExtension',
+    defaultMessage: '!!!Install Extension',
+  },
+  errorMessage: {
+    id: 'settings.extensions.store.errorMessage',
+    defaultMessage: '!!!We could not install this extension. Please try again later.',
+  },
+});
+export default @observer class ExtensionStoreScreen extends Component {
   static propTypes = {
-    extension: PropTypes.string.isRequired,
+    extension: PropTypes.object.isRequired,
+    isInstalled: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    hasErrored: PropTypes.bool.isRequired,
+    isInstalling: PropTypes.bool.isRequired,
   };
 
-  state = {
-    detail: {},
-  }
-
-  componentDidMount() {
-    webstore.detail({ id: this.props.extension }).then((detail) => {
-      console.log(detail);
-      this.setState({ detail });
-    });
-  }
+  static contextTypes = {
+    intl: intlShape,
+  };
 
   render() {
-    const { detail } = this.state;
+    const { intl } = this.context;
+    const { extension, isLoading, isInstalled, isInstalling, installExtension, hasErrored } = this.props;
 
     // Get most high resolution image
-    const highResImage = detail.images && detail.images['128x128'];
+    const highResImage = extension.images && extension.images['128x128'];
 
-    const manifest = detail.manifest ? JSON.parse(detail.manifest) : {};
+    const manifest = extension.manifest ? JSON.parse(extension.manifest) : {};
 
     return (
-      <div className="extension-info">
-        <div className="extension-icon">
-          <img
-            src={highResImage}
-            alt="Extension icon"
-          />
+      <div className="settings__main">
+        <div className="settings__header">
+          <h1>
+            {intl.formatMessage(messages.headline)}
+            <span className="separator" />
+            {extension.name}
+          </h1>
         </div>
+        
+        <div className="settings__body extensions recipes">
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <div className="extension-info">
+              {hasErrored && (
+                <Infobox
+                  type="danger"
+                  icon="alert"
+                >
+                  {intl.formatMessage(messages.errorMessage)}
+                </Infobox>
+              )}
+              <div className="extension-icon">
+                <img
+                  src={highResImage}
+                  alt="Extension icon"
+                />
+              </div>
 
-        <h2 className="extension-title">
-          {detail.name}
-        </h2>
-        {detail.title && (
-        <p className="extension-version">
-          {`${detail.title}`}
-        </p>
-        )}
-        {detail.version && (
-        <p className="extension-version">
-          {`Version ${detail.version}`}
-        </p>
-        )}
-        {detail.users && (
-        <p className="extension-version">
-          {`${detail.users} Users`}
-        </p>
-        )}
-        {detail.rating && (
-        <p className="extension-version">
-          {`${Math.round(detail.rating.average)}/5 Stars (${detail.rating.count} Votes)`}
-        </p>
-        )}
+              <h2 className="extension-title">
+                {extension.name}
+              </h2>
+              {extension.title && (
+              <p className="extension-version">
+                {`${extension.title}`}
+              </p>
+              )}
+              {extension.version && (
+              <p className="extension-version">
+                {`Version ${extension.version}`}
+              </p>
+              )}
+              {extension.users && (
+              <p className="extension-version">
+                {`${extension.users} Users`}
+              </p>
+              )}
+              {extension.rating && (
+              <p className="extension-version">
+                {`${Math.round(extension.rating.average)}/5 Stars (${extension.rating.count} Votes)`}
+              </p>
+              )}
 
-        {detail.description && (
-        <p className="extension-description">{detail.description}</p>
-        )}
+              {extension.description && (
+              <p className="extension-description">{extension.description}</p>
+              )}
 
-        {detail.website && (
-        <div style={{ height: 'auto' }}>
-          <a className="extension-homepage" href={detail.website} target="_blank">
-            <i className="mdi mdi-home" />
-            {' '}
-            {detail.website}
-          </a>
+              {extension.website && (
+              <div style={{ height: 'auto' }}>
+                <a className="extension-homepage" href={extension.website} target="_blank">
+                  <i className="mdi mdi-home" />
+                  {' '}
+                  {extension.website}
+                </a>
+              </div>
+              )}
+
+              {extension.url && (
+              <div style={{ height: 'auto' }}>
+                <a className="extension-homepage" href={extension.url} target="_blank">
+                  <i className="mdi mdi-home" />
+                  {' '}
+                      View in the Chrome Webstore
+                </a>
+              </div>
+              )}
+
+              {manifest.permissions && (
+              <div className="extensions-permissions">
+                <p>This extension requests the following permissions:</p>
+                <ul>
+                  {manifest.permissions.map(permission => (
+                    <li key={permission}>
+                          -
+                      {' '}
+                      {permissionText(permission)}
+                    </li>
+                  ))}
+                  {manifest.background && (
+                  <li>
+                          - Run scripts in the background
+                  </li>
+                  )}
+                </ul>
+              </div>
+              )}
+            </div>
+          )}
         </div>
-        )}
+        <div className="settings__controls">
+          {isInstalled && (
+            <p>You already installed this extension.</p>
+          )}
 
-        {detail.url && (
-        <div style={{ height: 'auto' }}>
-          <a className="extension-homepage" href={detail.url} target="_blank">
-            <i className="mdi mdi-home" />
-            {' '}
-                View in the Chrome Webstore
-          </a>
+          {/* Save Button */}
+          {!isInstalled && isInstalling && (
+            <Button
+              type="submit"
+              label={intl.formatMessage(messages.installExtension)}
+              loaded={false}
+              buttonType="secondary"
+              disabled
+            />
+          )}
+          {!isInstalled && !isInstalling && (
+            <Button
+              type="submit"
+              label={intl.formatMessage(messages.installExtension)}
+              htmlForm="form"
+              onClick={installExtension}
+            />
+          )}
         </div>
-        )}
-
-        {manifest.permissions && (
-        <div className="extensions-permissions">
-          <p>This extension requests the following permissions:</p>
-          <ul>
-            {manifest.permissions.map(permission => (
-              <li key={permission}>
-                    -
-                {' '}
-                {permissionText(permission)}
-              </li>
-            ))}
-            {manifest.background && (
-            <li>
-                    - Run scripts in the background
-            </li>
-            )}
-          </ul>
-        </div>
-        )}
       </div>
+      
     );
   }
 }
