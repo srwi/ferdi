@@ -10,6 +10,7 @@ import { ctrlKey, isMac } from '../../environment';
 import { workspaceStore } from '../../features/workspaces';
 import { todosStore } from '../../features/todos';
 import { todoActions } from '../../features/todos/actions';
+import ExtensionsActions from './ExtensionsActions';
 
 // Platform specific shortcut keys
 const settingsShortcutKey = isMac ? ',' : 'P';
@@ -114,6 +115,9 @@ export default @inject('stores', 'actions') @observer class Sidebar extends Comp
           enableToolTip={() => this.enableToolTip()}
           disableToolTip={() => this.disableToolTip()}
         />
+
+        <ExtensionsActions />
+
         { isLoggedIn ? (
           <>
             { stores.settings.all.app.lockingFeatureEnabled ? (

@@ -75,7 +75,7 @@ export default @inject('stores', 'actions') @observer class ExtensionsStoreDetai
     } = this.state;
 
     const feature = window.ferdi.features.extensions;
-    const isInstalled = feature ? feature.getActiveExtensions().includes(extension) : false;
+    const isInstalled = feature ? this.props.stores.extensions.active.includes(extension) : false;
 
     return (
       <ErrorBoundary>

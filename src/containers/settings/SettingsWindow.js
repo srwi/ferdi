@@ -32,7 +32,7 @@ export default @inject('stores', 'actions') @observer class SettingsContainer ex
       <Navigation
         serviceCount={stores.services.all.length}
         workspaceCount={workspaceStore.workspaces.length}
-        extensionsCount={window.ferdi.features.extensions ? window.ferdi.features.extensions.getActiveExtensions().length : 0}
+        extensionsCount={window.ferdi.features.extensions ? this.props.stores.extensions.active.length : 0}
       />
     );
 

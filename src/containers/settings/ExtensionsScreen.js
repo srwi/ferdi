@@ -28,7 +28,7 @@ export default @inject('stores', 'actions') @observer class ExtensionsScreen ext
     return (
       <ErrorBoundary>
         <ExtensionsDashboard
-          extensions={feature ? feature.getActiveExtensions() : []}
+          extensions={feature ? this.props.stores.extensions.active : []}
           status={status}
         />
       </ErrorBoundary>
