@@ -1,18 +1,10 @@
-import { remote, shell } from 'electron';
-import fs from 'fs-extra';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { autorun } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import path from 'path';
 import webstore from 'chrome-webstore';
 
 import StoreDetailScreen from '../../components/settings/extensions/StoreDetailScreen';
 import ErrorBoundary from '../../components/util/ErrorBoundary';
-import { EXTENSIONS_PATH } from '../../config';
-import ExtensionPreview from '../../models/ExtensionPreview';
-
-const { app } = remote;
 
 export default @inject('stores', 'actions') @observer class ExtensionsStoreDetailScreen extends Component {
   static propTypes = {
@@ -48,7 +40,7 @@ export default @inject('stores', 'actions') @observer class ExtensionsStoreDetai
     this.setState({
       isLoading: true,
     });
-    
+
     webstore.detail({ id: this.props.params.extension }).then((detail) => {
       this.setState({
         detail,
@@ -78,7 +70,9 @@ export default @inject('stores', 'actions') @observer class ExtensionsStoreDetai
 
   render() {
     const { extension } = this.props.params;
-    const { detail, isLoading, isInstalling, hasErrored } = this.state;
+    const {
+      detail, isLoading, isInstalling, hasErrored,
+    } = this.state;
 
     const feature = window.ferdi.features.extensions;
     const isInstalled = feature ? feature.getActiveExtensions().includes(extension) : false;
@@ -86,7 +80,7 @@ export default @inject('stores', 'actions') @observer class ExtensionsStoreDetai
     return (
       <ErrorBoundary>
         <StoreDetailScreen
-          extension={detail || {}}
+          extension={detail || {}}
           isLoading={isLoading}
           isInstalled={isInstalled}
           isInstalling={isInstalling}

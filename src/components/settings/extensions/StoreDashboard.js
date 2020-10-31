@@ -10,7 +10,6 @@ import { H3, H2 } from '@meetfranz/ui';
 import SearchInput from '../../ui/SearchInput';
 import Infobox from '../../ui/Infobox';
 import ExtensionItem from './StoreItem';
-import DetailScreen from './StoreDetailScreen';
 import Appear from '../../ui/effects/Appear';
 import LimitReachedInfobox from '../../../features/serviceLimit/components/LimitReachedInfobox';
 import PremiumFeatureContainer from '../../ui/PremiumFeatureContainer';
@@ -119,7 +118,6 @@ export default @injectSheet(styles) @observer class ExtensionStoreDashboard exte
   static defaultProps = {
     searchNeedle: '',
     extensionFilter: 'all',
-    detailExtension: '',
   }
 
   static contextTypes = {
