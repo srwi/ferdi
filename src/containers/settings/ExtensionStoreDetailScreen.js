@@ -41,7 +41,7 @@ export default @inject('stores', 'actions') @observer class ExtensionsStoreDetai
       isLoading: true,
     });
 
-    webstore.detail({ id: this.props.params.extension }).then((detail) => {
+    webstore.detail({ id: this.props.params.extension, version: '20201016' }).then((detail) => {
       this.setState({
         detail,
         isLoading: false,
