@@ -758,6 +758,24 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "tofran",
+      "name": "Francisco Marques",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/5692603?v=4",
+      "profile": "https://tofran.com",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "digitalcoyote",
+      "name": "Curtis Carter",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/16868093?v=4",
+      "profile": "https://digitalcoyote.github.io/NuGetDefense/",
+      "contributions": [
+        "platform"
+      ]
     }
   ],
   "contributorsPerLine": 6,

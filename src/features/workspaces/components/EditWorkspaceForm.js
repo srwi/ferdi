@@ -48,7 +48,7 @@ const messages = defineMessages({
   },
   noServicesAdded: {
     id: 'settings.services.noServicesAdded',
-    defaultMessage: '!!!You haven\'t added any services yet.',
+    defaultMessage: '!!!Start by adding a service.',
   },
   discoverServices: {
     id: 'settings.services.discoverServices',
@@ -172,7 +172,7 @@ class EditWorkspaceForm extends Component {
           <div className={classes.nameInput}>
             <Input {...form.$('name').bind()} />
             <Toggle field={form.$('keepLoaded')} />
-            <p className={classes.keepLoadedInfo}>
+            <p className={`${classes.keepLoadedInfo} franz-form__label`}>
               { intl.formatMessage(messages.keepLoadedInfo) }
             </p>
           </div>

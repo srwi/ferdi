@@ -14,12 +14,13 @@
 <p align="center">
 <img alt="GitHub Releases" src="https://img.shields.io/github/downloads/getferdi/ferdi/latest/total?label=Downloads&logo=iCloud&logoColor=%23FFFFFF">
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<a href='#contributors-'><img src='https://img.shields.io/badge/contributors-76-default.svg?logo=github' alt='Contributors'/></a>
+<a href='#contributors-'><img src='https://img.shields.io/badge/contributors-78-default.svg?logo=github' alt='Contributors'/></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END --> 
 <a href="#backers-via-opencollective"><img alt="Open Collective backers" src="https://img.shields.io/opencollective/backers/getferdi?logo=open-collective"></a>
 <a href="#sponsors-via-opencollective"><img alt="Open Collective sponsors" src="https://img.shields.io/opencollective/sponsors/getferdi?logo=open-collective"></a>
 <a href="https://ci.appveyor.com/project/kytwb/ferdi"><img alt="Build Status Windows" src="https://img.shields.io/appveyor/ci/kytwb/ferdi/master?logo=appveyor"></a>
 <a href="https://travis-ci.org/getferdi/ferdi"><img alt="Build Status Mac & Linux" src="https://img.shields.io/travis/getferdi/ferdi/master?logo=travis"></a>
+<a href="https://gitter.im/getferdi/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link"><img alt="Gitter Chat Room" src="https://img.shields.io/gitter/room/getferdi/community"></a>
 </p>
 
 🤴🏽 Hard-fork of [Franz](https://github.com/meetfranz/franz), adding awesome features and removing unwanted ones.
@@ -54,10 +55,10 @@
 
 ### What is Ferdi?
 
-Ferdi is a messaging browser that allows you to combine your favorite messaging services into one application. It is based on Franz - a software already used by thousands of people - with the difference that Ferdi gives you many additional features and doesn't restrict its usage! Ferdi is compatible with your existing Franz account so you can continue right where you left off. Find out more about Ferdi and its features on [getferdi.com](https://getferdi.com).
+Ferdi is a destkop app that helps you organize how you use your favourite apps by combining them into one application. It is based on Franz - a software already used by thousands of people - with the difference that Ferdi gives you many additional features and doesn't restrict its usage! Ferdi is compatible with your existing Franz account so you can continue right where you left off. Find out more about Ferdi and its features on [getferdi.com](https://getferdi.com).
 
 ## Features
-- [x] Ferdi puts all your messaging services into one place
+- [x] Ferdi puts all your web apps into one place
 - [x] Native support for 100+ services
 - [x] Workspaces to keep your personal and work life separated
 - [x] Support for multiple accounts on any service
@@ -90,6 +91,12 @@ Ferdi is a messaging browser that allows you to combine your favorite messaging 
 ## Download Ferdi
 
 You can download Ferdi for Windows, Mac and Linux on [Ferdi's download page](https://getferdi.com/download) or you can find all variants in the [latest stable release](https://github.com/getferdi/ferdi/releases/latest) assets and [all the other release here](https://github.com/getferdi/ferdi/releases).
+
+### Or use Chocolatey (Windows only)
+
+`$ choco install ferdi`
+
+(Don't know Chocolatey? [chocolatey.org](https://chocolatey.org/))
 
 ### Or use homebrew (macOS only)
 
@@ -226,6 +233,8 @@ $ dnf install libX11-devel libXext-devel libXScrnSaver-devel libxkbfile-devel
 
 #### Windows
 
+Please make sure you run this command as an administrator:
+
 ```bash
 $ npm install --global windows-build-tools --vs2015
 ```
@@ -256,6 +265,15 @@ If you previously ran `npm install` it sometimes is necessary to delete your `no
 $ npm run rebuild
 ```
 
+### Package recipe repository
+
+Ferdi requires its recipes to be packaged before it can use it. When running Ferdi as a development instance, you'll need to package the local recipes before you can create any services inside Ferdi.
+
+```bash
+$ cd recipes
+$ npm install && npm run package
+```
+
 ### Start development app
 
 Run these two commands **simultaneously** in different terminals:
@@ -279,7 +297,7 @@ Note: please prefer [`debug()`](https://github.com/visionmedia/debug) over `cons
 $ npm run build
 ```
 
-Deliverables will be available in the `out` folder.
+Assets will be available in the `out` folder.
 
 ### Release
 
@@ -297,19 +315,9 @@ $ git push
 
 Once the draft release assets are uploaded (13 assets), publish the release. The last commit of the `release` branch will be tagged. You can then merge `release` into `master` and back into `develop` if needed.
 
-#### Nightly
+#### Nightly releases
 
-```bash
-$ git checkout develop && git pull
-$ git checkout nightly
-$ git submodule update --remote --force
-$ git add .
-$ git commit -m "Update submodules"
-$ git merge --no-ff develop
-$ git push
-```
-
-The draft release and assets will be available in [getferdi/nightlies releases](https://github.com/getferdi/nightlies/releases). You need to manually publish the draft release as a pre-release for now.
+Nightly releases are automaticly triggered every day ([details](https://github.com/getferdi/ferdi/pull/990)) and available in [getferdi/nightlies](https://github.com/getferdi/nightlies/releases). Maintainers still need to manually publish the draft releases as pre-releases for now.
 
 ## Contributors ✨
 
@@ -420,6 +428,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://hohner.dev"><img src="https://avatars0.githubusercontent.com/u/649895?v=4" width="40px;" alt=""/><br /><sub><b>Jan Hohner</b></sub></a><br /><a href="#userTesting-janhohner" title="User Testing">📓</a></td>
     <td align="center"><a href="https://marussy.com"><img src="https://avatars1.githubusercontent.com/u/38888?v=4" width="40px;" alt=""/><br /><sub><b>Kristóf Marussy</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/commits?author=kris7t" title="Code">💻</a></td>
     <td align="center"><a href="https://cl.linkedin.com/in/juanvalentinmoraruiz"><img src="https://avatars0.githubusercontent.com/u/4575267?v=4" width="40px;" alt=""/><br /><sub><b>Juan Mora</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/commits?author=raicerk" title="Code">💻</a></td>
+    <td align="center"><a href="https://tofran.com"><img src="https://avatars2.githubusercontent.com/u/5692603?v=4" width="40px;" alt=""/><br /><sub><b>Francisco Marques</b></sub></a><br /><a href="https://github.com/getferdi/ferdi/commits?author=tofran" title="Code">💻</a></td>
+    <td align="center"><a href="https://digitalcoyote.github.io/NuGetDefense/"><img src="https://avatars3.githubusercontent.com/u/16868093?v=4" width="40px;" alt=""/><br /><sub><b>Curtis Carter</b></sub></a><br /><a href="#platform-digitalcoyote" title="Packaging/porting to new platform">📦</a></td>
   </tr>
 </table>
 

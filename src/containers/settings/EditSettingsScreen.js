@@ -59,6 +59,10 @@ const messages = defineMessages({
     id: 'settings.app.form.privateNotifications',
     defaultMessage: '!!!Don\'t show message content in notifications',
   },
+  notifyTaskBarOnMessage: {
+    id: 'settings.app.form.notifyTaskBarOnMessage',
+    defaultMessage: '!!!Notify TaskBar/Dock on new message',
+  },
   navigationBarBehaviour: {
     id: 'settings.app.form.navigationBarBehaviour',
     defaultMessage: '!!!Navigation bar behaviour',
@@ -138,6 +142,14 @@ const messages = defineMessages({
   iconSize: {
     id: 'settings.app.form.iconSize',
     defaultMessage: '!!!Service icon size',
+  },
+  useVerticalStyle: {
+    id: 'settings.app.form.useVerticalStyle',
+    defaultMessage: '!!!Use vertical style',
+  },
+  alwaysShowWorkspaces: {
+    id: 'settings.app.form.alwaysShowWorkspaces',
+    defaultMessage: '!!!Always show workspace drawer',
   },
   accentColor: {
     id: 'settings.app.form.accentColor',
@@ -222,6 +234,7 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
         startMinimized: settingsData.startMinimized,
         minimizeToSystemTray: settingsData.minimizeToSystemTray,
         privateNotifications: settingsData.privateNotifications,
+        notifyTaskBarOnMessage: settingsData.notifyTaskBarOnMessage,
         navigationBarBehaviour: settingsData.navigationBarBehaviour,
         sentry: settingsData.sentry,
         hibernate: settingsData.hibernate,
@@ -243,6 +256,8 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
         universalDarkMode: settingsData.universalDarkMode,
         serviceRibbonWidth: settingsData.serviceRibbonWidth,
         iconSize: settingsData.iconSize,
+        useVerticalStyle: settingsData.useVerticalStyle,
+        alwaysShowWorkspaces: settingsData.alwaysShowWorkspaces,
         accentColor: settingsData.accentColor,
         showMessageBadgeWhenMuted: settingsData.showMessageBadgeWhenMuted,
         showDragArea: settingsData.showDragArea,
@@ -363,6 +378,11 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
           label: intl.formatMessage(messages.privateNotifications),
           value: settings.all.app.privateNotifications,
           default: DEFAULT_APP_SETTINGS.privateNotifications,
+        },
+        notifyTaskBarOnMessage: {
+          label: intl.formatMessage(messages.notifyTaskBarOnMessage),
+          value: settings.all.app.notifyTaskBarOnMessage,
+          default: DEFAULT_APP_SETTINGS.notifyTaskBarOnMessage,
         },
         navigationBarBehaviour: {
           label: intl.formatMessage(messages.navigationBarBehaviour),
@@ -494,6 +514,16 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
           default: DEFAULT_APP_SETTINGS.iconSize,
           options: iconSizes,
         },
+        useVerticalStyle: {
+          label: intl.formatMessage(messages.useVerticalStyle),
+          value: settings.all.app.useVerticalStyle,
+          default: DEFAULT_APP_SETTINGS.useVerticalStyle,
+        },
+        alwaysShowWorkspaces: {
+          label: intl.formatMessage(messages.alwaysShowWorkspaces),
+          value: settings.all.app.alwaysShowWorkspaces,
+          default: DEFAULT_APP_SETTINGS.alwaysShowWorkspaces,
+        },
         accentColor: {
           label: intl.formatMessage(messages.accentColor),
           value: settings.all.app.accentColor,
@@ -586,6 +616,7 @@ export default @inject('stores', 'actions') @observer class EditSettingsScreen e
           isAdaptableDarkModeEnabled={this.props.stores.settings.app.adaptableDarkMode}
           isTodosActivated={this.props.stores.todos.isFeatureEnabledByUser}
           isUsingCustomTodoService={this.props.stores.todos.isUsingCustomTodoService}
+          isNightlyEnabled={this.props.stores.settings.app.nightly}
           openProcessManager={() => this.openProcessManager()}
         />
       </ErrorBoundary>

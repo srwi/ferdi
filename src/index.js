@@ -53,6 +53,15 @@ import userAgent from './helpers/userAgent-helpers';
 
 const debug = require('debug')('Ferdi:App');
 
+// From Electron 9 onwards, app.allowRendererProcessReuse = true by default. This causes the app to crash on Windows due to the
+// Electron Windows Notification API crashing. Setting this to false fixes the issue until the electron team fixes the notification bug
+// More Info - https://github.com/electron/electron/issues/18397
+if (isWindows) {
+  app.allowRendererProcessReuse = false;
+}
+
+
+
 // Globally set useragent to fix user agent override in service workers
 debug('Set userAgent to ', userAgent());
 app.userAgentFallback = userAgent();
@@ -167,8 +176,8 @@ const createWindow = () => {
   }
 
   // Create the browser window.
-  let backgroundColor = '#7367F0';
-  if (settings.get('accentColor') !== '#7367f0') {
+  let backgroundColor = '#7266F0';
+  if (settings.get('accentColor') !== '#7266F0') {
     backgroundColor = settings.get('accentColor');
   } else if (settings.get('darkMode')) {
     backgroundColor = '#1E1E1E';
@@ -356,6 +365,9 @@ if (argv['auth-server-whitelist']) {
 if (argv['auth-negotiate-delegate-whitelist']) {
   app.commandLine.appendSwitch('auth-negotiate-delegate-whitelist', argv['auth-negotiate-delegate-whitelist']);
 }
+
+// Disable Chromium's poor MPRIS implementation
+app.commandLine.appendSwitch('disable-features', 'HardwareMediaKeyHandling,MediaSessionService');
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
