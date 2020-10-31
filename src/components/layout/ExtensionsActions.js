@@ -84,12 +84,22 @@ export default @inject('stores', 'actions') @observer class ExtensionsActions ex
             type="button"
             className="sidebar__button"
             onClick={() => {
-              this.setState({
-                openedPopup: `${window.ferdi.features.extensions.extensionsPath}/${action.id}/${action.default_popup}`,
-                popupTitle: action.default_title,
-              });
+              const popupUrl = `${window.ferdi.features.extensions.extensionsPath}/${action.id}/${action.default_popup}`;
+
+              if (openedPopup === popupUrl) {
+                // Close popup
+                this.setState({
+                  openedPopup: false
+                });
+              } else {
+                this.setState({
+                  openedPopup: popupUrl,
+                  popupTitle: action.default_title,
+                });
+              }
             }}
             data-tip={action.name}
+            key={action.id}
           >
             {this.actionIcon(action)}
           </button>

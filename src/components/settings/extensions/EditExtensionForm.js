@@ -5,7 +5,7 @@ import { defineMessages, intlShape } from 'react-intl';
 
 import Button from '../../ui/Button';
 
-import { permissionText } from '../../../features/extensions/helpers';
+import { permissionText } from '../../../features/extensions/permissions';
 
 const messages = defineMessages({
   deleteExtension: {

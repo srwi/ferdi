@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { defineMessages, intlShape } from 'react-intl';
 
-import { permissionText } from '../../../features/extensions/helpers';
+import { permissionText } from '../../../features/extensions/permissions';
 
 import Loader from '../../ui/Loader';
 import Button from '../../ui/Button';
