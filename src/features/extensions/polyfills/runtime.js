@@ -3,13 +3,11 @@ chrome.runtime = {
   sendMessage: (data, callback) => {
     callback(false);
   },
-  getManifest: () => {
-    return {
-      version: '1.0.0',
-    };
-  },
-  getURL: path => window.location.href.split('/').slice(0, -1).join('/') + path
-}
+  getManifest: () => ({
+    version: '1.0.0',
+  }),
+  getURL: path => window.location.href.split('/').slice(0, -1).join('/') + path,
+};
 
 // sendMessage(
 //   {

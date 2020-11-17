@@ -1,12 +1,10 @@
 // TODO: Save storage data somewhere save instead of using the localStorage
-const getDataFromLocal = (name) => {
-  return localStorage[name] ? JSON.parse(localStorage[name]) : undefined;
-}
+const getDataFromLocal = name => (localStorage[name] ? JSON.parse(localStorage[name]) : undefined);
 
 const storageProvider = {
   get: (name, callback) => {
     let keys = name;
-    if (typeof name == 'string') {
+    if (typeof name === 'string') {
       keys = [name];
     }
 
@@ -19,14 +17,14 @@ const storageProvider = {
     callback(data);
   },
   set: (data, callback = (() => {})) => {
-    for(const name in data) {
+    for (const name in data) {
       localStorage[name] = data[name];
     }
     callback();
-  }
+  },
 };
 
 window.chrome.storage = {
   sync: storageProvider,
   local: storageProvider,
-}
+};

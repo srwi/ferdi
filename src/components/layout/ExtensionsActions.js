@@ -89,7 +89,7 @@ export default @inject('stores', 'actions') @observer class ExtensionsActions ex
               if (openedPopup === popupUrl) {
                 // Close popup
                 this.setState({
-                  openedPopup: false
+                  openedPopup: false,
                 });
               } else {
                 this.setState({
